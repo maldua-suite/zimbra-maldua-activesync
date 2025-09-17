@@ -1,0 +1,6 @@
+build
+lib
+zetaactivesync.jar
+openjdk*
+java*
+out
