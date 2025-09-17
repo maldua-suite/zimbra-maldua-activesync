@@ -24,19 +24,19 @@ import com.zimbra.common.soap.Element;
 
 import com.zimbra.soap.ZimbraSoapContext;
 
+import com.zimbra.cs.account.auth.AuthContext.Protocol;
 import com.zimbra.cs.service.account.AccountDocumentHandler;
-
-import com.zimbra.soap.account.message.AuthResponse;
 
 public final class ZetaActiveSyncAuth extends AccountDocumentHandler {
 
     @Override
     public Element handle(Element request, Map<String, Object> context) throws ServiceException {
-        ZimbraSoapContext zsc = getZimbraSoapContext(context);
+        // Force protocol to be zsync so that Application Passcodes are accepted for 2FA
+        context.put("proto", Protocol.zsync);
 
-        AuthResponse resp = new AuthResponse();
+        Element superElement = super.handle(request, context);
 
-        return JaxbUtil.jaxbToElement(resp);
+        return superElement;
     }
 
 }
