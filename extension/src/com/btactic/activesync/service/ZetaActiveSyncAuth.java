@@ -25,9 +25,9 @@ import com.zimbra.common.soap.Element;
 import com.zimbra.soap.ZimbraSoapContext;
 
 import com.zimbra.cs.account.auth.AuthContext.Protocol;
-import com.zimbra.cs.service.account.AccountDocumentHandler;
+import com.zimbra.cs.service.account.Auth;
 
-public final class ZetaActiveSyncAuth extends AccountDocumentHandler {
+public final class ZetaActiveSyncAuth extends Auth {
 
     @Override
     public Element handle(Element request, Map<String, Object> context) throws ServiceException {
