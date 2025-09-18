@@ -17,6 +17,9 @@
 
 package com.btactic.activesync.service.message;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
 import com.zimbra.soap.account.message.AuthRequest;
 import com.btactic.activesync.service.ZetaActiveSyncConstants;
 
