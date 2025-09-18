@@ -78,12 +78,12 @@ public final class ZetaActiveSyncAuth extends Auth {
 
         if (acct != null) {
             mtaAuthPort = acct.getServer().getMtaAuthPort();
-            ZimbraLog.extensions.debug(
+            ZimbraLog.extensions.info(
                 "[ZetaActiveSync] Overriding REQUEST_PORT with account's MTA auth port {}", mtaAuthPort);
         } else {
             try {
                 mtaAuthPort = Provisioning.getInstance().getLocalServer().getMtaAuthPort();
-                ZimbraLog.extensions.debug(
+                ZimbraLog.extensions.info(
                     "[ZetaActiveSync] Account is null, falling back to local server MTA auth port {}", mtaAuthPort);
             } catch (Exception e) {
                 ZimbraLog.extensions.warn("[ZetaActiveSync] Could not determine local server MTA auth port", e);
@@ -93,7 +93,7 @@ public final class ZetaActiveSyncAuth extends Auth {
         if (mtaAuthPort != null) {
             context.put(SoapEngine.REQUEST_PORT, mtaAuthPort);
         } else {
-            ZimbraLog.extensions.debug("[ZetaActiveSync] mtaAuthPort is null, not overriding REQUEST_PORT");
+            ZimbraLog.extensions.info("[ZetaActiveSync] mtaAuthPort is null, not overriding REQUEST_PORT");
         }
 
         return super.handle(request, context);
