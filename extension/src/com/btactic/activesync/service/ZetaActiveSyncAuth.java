@@ -27,14 +27,19 @@ import com.zimbra.soap.ZimbraSoapContext;
 import com.zimbra.cs.account.auth.AuthContext.Protocol;
 import com.zimbra.cs.service.account.Auth;
 
+import com.zimbra.common.util.ZimbraLog;
+
 public final class ZetaActiveSyncAuth extends Auth {
 
     @Override
     public Element handle(Element request, Map<String, Object> context) throws ServiceException {
+        ZimbraLog.extensions.info("[ZetaActiveSync] " + "1");
         // Force protocol to be zsync so that Application Passcodes are accepted for 2FA
         context.put("proto", Protocol.zsync);
+        ZimbraLog.extensions.info("[ZetaActiveSync] " + "2");
 
         Element superElement = super.handle(request, context);
+        ZimbraLog.extensions.info("[ZetaActiveSync] " + "3");
 
         return superElement;
     }
