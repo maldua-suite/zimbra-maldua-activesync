@@ -19,17 +19,22 @@ package com.btactic.activesync.service;
 
 import java.util.Map;
 
+import com.zimbra.common.account.Key;
+import com.zimbra.common.account.Key.AccountBy;
 import com.zimbra.common.service.ServiceException;
 import com.zimbra.common.soap.AccountConstants;
 import com.zimbra.common.soap.Element;
 import com.zimbra.common.util.ZimbraLog;
 
-import com.zimbra.soap.ZimbraSoapContext;
-
 import com.zimbra.cs.account.Account;
+import com.zimbra.cs.account.Domain;
 import com.zimbra.cs.account.Provisioning;
 import com.zimbra.cs.account.auth.AuthContext.Protocol;
+
 import com.zimbra.cs.service.account.Auth;
+
+import com.zimbra.soap.SoapEngine;
+import com.zimbra.soap.ZimbraSoapContext;
 
 public final class ZetaActiveSyncAuth extends Auth {
 
@@ -39,14 +44,33 @@ public final class ZetaActiveSyncAuth extends Auth {
         context.put("proto", Protocol.zsync);
 
         Account acct = null;
-        int mtaAuthPort;
+        Integer mtaAuthPort = null;
 
         try {
-            // Try to resolve the account from the request
-            String by = request.getAttribute(AccountConstants.A_BY, null);
-            String key = request.getAttribute(AccountConstants.A_ACCOUNT, null);
-            if (by != null && key != null) {
-                acct = Provisioning.getInstance().get(AccountBy.fromString(by), key);
+            Provisioning prov = Provisioning.getInstance();
+
+            // Replicate the account resolution logic from Auth.handle()
+            Element acctEl = request.getOptionalElement(AccountConstants.E_ACCOUNT);
+            if (acctEl != null) {
+                String acctValuePassedIn = acctEl.getText();
+                String acctValue = acctValuePassedIn;
+                String acctByStr = acctEl.getAttribute(
+                    AccountConstants.A_BY,
+                    AccountBy.name.name());
+                AccountBy acctBy = AccountBy.fromString(acctByStr);
+
+                if (acctBy == AccountBy.name) {
+                    Element virtualHostEl = request.getOptionalElement(AccountConstants.E_VIRTUAL_HOST);
+                    String virtualHost = virtualHostEl == null ? null : virtualHostEl.getText().toLowerCase();
+                    if (virtualHost != null && acctValue.indexOf('@') == -1) {
+                        Domain d = prov.get(Key.DomainBy.virtualHostname, virtualHost);
+                        if (d != null) {
+                            acctValue = acctValue + "@" + d.getName();
+                        }
+                    }
+                }
+
+                acct = prov.get(acctBy, acctValue);
             }
         } catch (Exception e) {
             ZimbraLog.extensions.warn("[ZetaActiveSync] Could not resolve account from request", e);
@@ -57,13 +81,20 @@ public final class ZetaActiveSyncAuth extends Auth {
             ZimbraLog.extensions.debug(
                 "[ZetaActiveSync] Overriding REQUEST_PORT with account's MTA auth port {}", mtaAuthPort);
         } else {
-            mtaAuthPort = Provisioning.getInstance().getLocalServer().getMtaAuthPort();
-            ZimbraLog.extensions.debug(
-                "[ZetaActiveSync] Account is null, falling back to local server MTA auth port {}", mtaAuthPort);
+            try {
+                mtaAuthPort = Provisioning.getInstance().getLocalServer().getMtaAuthPort();
+                ZimbraLog.extensions.debug(
+                    "[ZetaActiveSync] Account is null, falling back to local server MTA auth port {}", mtaAuthPort);
+            } catch (Exception e) {
+                ZimbraLog.extensions.warn("[ZetaActiveSync] Could not determine local server MTA auth port", e);
+            }
         }
 
-        // Override the port in context so ZimbraSoapContext sees SMTP port
-        context.put(SoapEngine.REQUEST_PORT, mtaAuthPort);
+        if (mtaAuthPort != null) {
+            context.put(SoapEngine.REQUEST_PORT, mtaAuthPort);
+        } else {
+            ZimbraLog.extensions.debug("[ZetaActiveSync] mtaAuthPort is null, not overriding REQUEST_PORT");
+        }
 
         return super.handle(request, context);
     }
