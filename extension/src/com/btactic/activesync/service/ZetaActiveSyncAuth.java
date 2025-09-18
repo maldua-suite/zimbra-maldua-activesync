@@ -31,12 +31,37 @@ public final class ZetaActiveSyncAuth extends Auth {
 
     @Override
     public Element handle(Element request, Map<String, Object> context) throws ServiceException {
-        // Force protocol to be zsync so that Application Passcodes are accepted for 2FA
+        ZimbraLog.extensions.info("[ZetaActiveSync] forcing proto=zsync");
         context.put("proto", Protocol.zsync);
 
-        Element superElement = super.handle(request, context);
+        Account acct = null;
+        int mtaAuthPort;
 
-        return superElement;
+        try {
+            // Try to resolve the account from the request
+            String by = request.getAttribute(AccountConstants.A_BY, null);
+            String key = request.getAttribute(AccountConstants.A_ACCOUNT, null);
+            if (by != null && key != null) {
+                acct = Provisioning.getInstance().get(AccountBy.fromString(by), key);
+            }
+        } catch (Exception e) {
+            ZimbraLog.extensions.warn("[ZetaActiveSync] Could not resolve account from request", e);
+        }
+
+        if (acct != null) {
+            mtaAuthPort = acct.getServer().getMtaAuthPort();
+            ZimbraLog.extensions.debug(
+                "[ZetaActiveSync] Overriding REQUEST_PORT with account's MTA auth port {}", mtaAuthPort);
+        } else {
+            mtaAuthPort = Provisioning.getInstance().getLocalServer().getMtaAuthPort();
+            ZimbraLog.extensions.debug(
+                "[ZetaActiveSync] Account is null, falling back to local server MTA auth port {}", mtaAuthPort);
+        }
+
+        // Override the port in context so ZimbraSoapContext sees SMTP port
+        context.put(SoapEngine.REQUEST_PORT, mtaAuthPort);
+
+        return super.handle(request, context);
     }
 
 }
