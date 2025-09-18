@@ -12,6 +12,7 @@
         <fileset dir="${lib}" >
             <include name="*.jar"/>
         </fileset>
+        <pathelement location="/opt/zimbra/jetty_base/webapps/service/WEB-INF/lib/jjwt-0.7.0.jar"/>
     </path>
 
     <target name="clean">
