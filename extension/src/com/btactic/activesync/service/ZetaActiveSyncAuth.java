@@ -327,7 +327,22 @@ public final class ZetaActiveSyncAuth extends Auth {
                 if (usingTwoFactorAuth && twoFactorCode == null && (password != null || recoveryCode != null)) {
                     ZimbraLog.account.info("[ZetaActiveSync] DEBUG In the right TwoFactorAuth place. 1");
                     int mtaAuthPort = acct.getServer().getMtaAuthPort();
-                    boolean supportsAppSpecificPaswords =  acct.isFeatureAppSpecificPasswordsEnabled() && zsc.getPort() == mtaAuthPort;
+                    // boolean supportsAppSpecificPaswords =  acct.isFeatureAppSpecificPasswordsEnabled() && zsc.getPort() == mtaAuthPort;
+                    // Before evaluating the final boolean
+                    boolean featureEnabled = acct.isFeatureAppSpecificPasswordsEnabled();
+                    int zscPort = zsc.getPort();
+                    boolean portMatches = zscPort == mtaAuthPort;
+
+                    // Log each component
+                    ZimbraLog.account.info("[ZetaActiveSync] DEBUG: acct.isFeatureAppSpecificPasswordsEnabled() = " + featureEnabled);
+                    ZimbraLog.account.info("[ZetaActiveSync] DEBUG: zsc.getPort() = " + zscPort);
+                    ZimbraLog.account.info("[ZetaActiveSync] DEBUG: mtaAuthPort = " + mtaAuthPort);
+                    ZimbraLog.account.info("[ZetaActiveSync] DEBUG: portMatches = " + portMatches);
+
+                    // Evaluate final boolean
+                    boolean supportsAppSpecificPaswords = featureEnabled && portMatches;
+                    ZimbraLog.account.info("[ZetaActiveSync] DEBUG: supportsAppSpecificPaswords = " + supportsAppSpecificPaswords);
+
                     if (supportsAppSpecificPaswords && password != null) {
                         ZimbraLog.account.info("[ZetaActiveSync] DEBUG YES Detected as SMTP 2");
                         // if we are here, it means we are authenticating SMTP,
