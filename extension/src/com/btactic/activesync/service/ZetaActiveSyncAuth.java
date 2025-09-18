@@ -83,6 +83,9 @@ import com.zimbra.soap.ZimbraSoapContext;
 import com.zimbra.cs.account.auth.AuthContext.Protocol;
 import com.zimbra.cs.service.account.Auth;
 
+import com.zimbra.cs.service.account.GetPrefs;
+import com.zimbra.cs.service.account.ToXML;
+
 /**
  * @author schemers
  */
