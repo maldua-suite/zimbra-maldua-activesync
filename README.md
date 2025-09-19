@@ -41,6 +41,92 @@ ActiveSync logins are now logged in audit.log file.
 2025-09-19 19:40:17,304 INFO  [qtp1279309678-18:https://zimbra.example.net/service/soap/] [name=login@example.net;oip=1.2.3.4, 5.6.7.8;port=47834;ua=BlueMail 1.140.103 (20466)(...le2bw6) devip=1.2.3.4 ZPZB/74;soapId=56847ec2;] security - cmd=Auth; account=login@example.net; protocol=zsync;
 ```
 
+## Admin documentation
+
+### Initial setup
+
+Before even installing this extension you need to whitelist your ActiveSync server (Usually Z-Push + Z-Push Backend for Zimbra) ip into **zimbraHttpThrottleSafeIPs**.
+Let's assume that your Z-Push server ip seen by Zimbra is 1.2.3.4.
+
+This should always work:
+```
+sudo su - zimbra
+zmprov modifyServer $(zmhostname) +zimbraHttpThrottleSafeIPs '1.2.3.4'
+exit
+```
+.
+
+If you want something that works in all of your cluster nodes at once use this instead:
+
+```
+sudo su - zimbra
+zmprov mcf +zimbraHttpThrottleSafeIPs '1.2.3.4'
+exit
+```
+
+### Installation
+
+#### Automatic installation
+
+**Notice:** In a Multi-Server cluster these commands have to be run on each one of the mailbox nodes.
+
+```
+sudo -i # Become root
+cd /tmp
+wget 'https://github.com/maldua-suite/zimbra-maldua-activesync/releases/download/v0.1.0/zimbra-maldua-activesync_0.1.0.tar.gz'
+tar xzf zimbra-maldua-activesync_0.1.0.tar.gz
+cd zimbra-maldua-activesync_0.1.0
+```
+
+For regular installation or upgrade you can run:
+```
+./install.sh
+```
+instead
+.
+
+In order for the two-factor authentication extension and the adminZimlet to apply you need to restart mailboxd with:
+```
+sudo -i # Become root
+su - zimbra -c 'zmmailboxdctl restart'
+```
+
+#### Manual installation
+
+**Notice:** In a Multi-Server cluster these commands have to be run on each one of the mailbox nodes.
+
+**WARNING:** Please change **0.1.0** with whatever it's the latest released version.
+
+```
+sudo -i # Become root
+cd /tmp
+wget 'https://github.com/maldua-suite/zimbra-maldua-activesync/releases/download/v0.1.0/zimbra-maldua-activesync_0.1.0.tar.gz'
+tar xzf zimbra-maldua-activesync_0.1.0.tar.gz
+chown zimbra:zimbra zimbra-maldua-activesync_0.1.0
+cd zimbra-maldua-activesync_0.1.0
+cp zetaactivesync.jar /opt/zimbra/lib/ext/twofactorauth/zetaactivesync.jar
+```
+
+In order for the ActiveSync extension to apply you need to restart mailboxd with:
+```
+sudo -i # Become root
+su - zimbra -c 'zmmailboxdctl restart'
+```
+
+### Uninstallation
+
+```
+sudo -i # Become root
+mv /opt/zimbra/lib/ext/twofactorauth/zetaactivesync.jar /root/zetaactivesync.jar-REMOVED-ON-YYYY-MM-DD
+```
+
+In order for the removal to be applied you need to restart mailboxd with:
+```
+sudo -i # Become root
+su - zimbra -c 'zmmailboxdctl restart'
+```
+.
+
 ## Developer documentation
 
 This documentation is aimed at developers, not at admins.
