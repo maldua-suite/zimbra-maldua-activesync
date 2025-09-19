@@ -1,5 +1,7 @@
 # Maldua's Zimbra ActiveSync
 
+![Zimbra ActiveSync Splash](images/zimbra-maldua-activesync-splash.png)
+
 ## About
 
 **MALDUA'S Zimbra ActiveSync Extension** brought to you by [BTACTIC, open source & cloud solutions](https://www.btactic.com).
