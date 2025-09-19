@@ -98,7 +98,7 @@ public final class ZetaActiveSyncAuth extends Auth {
 
     @Override
     public Element handle(Element request, Map<String, Object> context) throws ServiceException {
-        // CHANGE 01: Force zsync protocol
+        // ZETACHANGE : Force zsync protocol
         context.put("proto", Protocol.zsync);
 
         ZimbraSoapContext zsc = getZimbraSoapContext(context);
@@ -331,7 +331,7 @@ public final class ZetaActiveSyncAuth extends Auth {
                 if (usingTwoFactorAuth && twoFactorCode == null && (password != null || recoveryCode != null)) {
                     int mtaAuthPort = acct.getServer().getMtaAuthPort();
                     boolean supportsAppSpecificPaswords =  acct.isFeatureAppSpecificPasswordsEnabled() && zsc.getPort() == mtaAuthPort;
-                    // CHANGE 02: Use supportsAppSpecificPaswordsForActiveSync logic
+                    // ZETACHANGE : Use supportsAppSpecificPaswordsForActiveSync logic
                     boolean supportsAppSpecificPaswordsForActiveSync =  acct.isFeatureAppSpecificPasswordsEnabled();
                     if (supportsAppSpecificPaswordsForActiveSync && password != null) {
                         // if we are here, it means we are authenticating SMTP,
@@ -339,7 +339,7 @@ public final class ZetaActiveSyncAuth extends Auth {
                         // doesn't touch this code, so their authentication happens in ZimbraAuth.
                         AppSpecificPasswords appPasswords = TwoFactorAuth.getFactory().getAppSpecificPasswords(acct, acctValuePassedIn);
                         appPasswords.authenticate(password);
-                        // CHANGE 03: Forced logging on audit.log
+                        // ZETACHANGE : Forced logging on audit.log
                         ZimbraLog.security.info(
                             ZimbraLog.encodeAttrs(
                                 new String[] {
