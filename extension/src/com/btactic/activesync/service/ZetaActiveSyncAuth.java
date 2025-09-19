@@ -15,9 +15,11 @@
 package com.btactic.activesync.service;
 
 import com.zimbra.common.service.ServiceException;
+
+import com.zimbra.common.soap.AccountConstants;
 import com.zimbra.common.soap.Element;
+
 import com.zimbra.cs.account.Provisioning;
-import com.zimbra.cs.service.account.AccountConstants;
 import com.zimbra.cs.service.account.Auth;
 import com.zimbra.soap.SoapEngine;
 import com.zimbra.soap.ZimbraSoapContext;
@@ -27,11 +29,6 @@ import java.util.Map;
 public class ZetaActiveSyncAuth {
 
     public Element handle(Element request, Map<String, Object> context) throws ServiceException {
-        // override protocol & port before creating ZimbraSoapContext
-        context.put("proto", SoapEngine.Protocol.sync);  // set sync protocol
-        int localMtaPort = Provisioning.getInstance().getLocalServer().getMtaAuthPort();
-        context.put(SoapEngine.REQUEST_PORT, localMtaPort);
-
         // Construct a "full" AuthRequest with all possible elements
         Element authRequest = new Element.XMLElement("AuthRequest");
 
