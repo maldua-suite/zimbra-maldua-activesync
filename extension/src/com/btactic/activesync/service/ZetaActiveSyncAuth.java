@@ -60,13 +60,14 @@ public class ZetaActiveSyncAuth {
         return new Auth().handle(authRequest, context);
     }
 
-    private void copyOptional(Element source, Element target, String elementName) {
+    private void copyOptional(Element source, Element target, String elementName) throws ServiceException {
         Element child = source.getOptionalElement(elementName);
         if (child != null) {
-            target.addElement(elementName).setText(child.getText());
-            for (Map.Entry<String, Object> attr : child.getAttributes().entrySet()) {
-                target.getElement(elementName).addAttribute(attr.getKey(), attr.getValue());
+            Element newChild = target.addElement(elementName).setText(child.getText());
+            for (String attrName : child.getAttributeNames()) {
+                newChild.addAttribute(attrName, child.getAttribute(attrName));
             }
         }
     }
+
 }
