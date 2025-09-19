@@ -91,6 +91,9 @@ import com.zimbra.cs.service.account.ToXML;
 
 public final class ZetaActiveSyncAuth extends Auth {
 
+    // Unfortunately we need to override this big method
+    // which means we will need to track changes to Auth.java
+    // alongside Zimbra updates
     @Override
     public Element handle(Element request, Map<String, Object> context) throws ServiceException {
         ZimbraSoapContext zsc = getZimbraSoapContext(context);
