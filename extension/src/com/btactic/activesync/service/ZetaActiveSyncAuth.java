@@ -95,11 +95,22 @@ public final class ZetaActiveSyncAuth extends Auth {
     public Element handle(Element request, Map<String, Object> context) throws ServiceException {
         // Force context
         context.put("proto", Protocol.zsync);
-        // context.put(SoapEngine.REQUEST_PORT, 7073);
+        context.put(SoapEngine.REQUEST_PORT, 7073);
         ZimbraSoapContext origZsc = getZimbraSoapContext(context);
-        ZetaActiveSyncSoapContext updatedZsc = new ZetaActiveSyncSoapContext(origZsc, 7073);
-        context.put(com.zimbra.soap.SoapEngine.ZIMBRA_CONTEXT, updatedZsc);
-        ZimbraLog.extensions.info("[ZetaActiveSync] Overriding REQUEST_PORT with account's MTA auth port: 7073");
+
+        // 2. Recreate the ZimbraSoapContext so it picks up the updated port
+        ZimbraSoapContext newZsc = new ZimbraSoapContext(
+            origZsc.getContextElement(),
+            origZsc.getRequestQName(),
+            this, // handler
+            context,
+            origZsc.getRequestProtocol()
+        );
+
+        // 3. Replace the old ZimbraSoapContext in the map
+        context.put(SoapEngine.ZIMBRA_CONTEXT, newZsc);
+
+        ZimbraLog.account.info("[ZetaActiveSync] Overrode REQUEST_PORT with account's MTA auth port {" + mtaAuthPort + "}");
 
         ZimbraSoapContext zsc = getZimbraSoapContext(context);
         Provisioning prov = Provisioning.getInstance();
