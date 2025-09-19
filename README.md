@@ -20,6 +20,14 @@ Please notice that **it does not bring an equivalent functionality to an ActiveS
 
 - Zimbra 10.1.x
 
+## Requisites
+
+- This project assumes that you already have a VPS with Z-Push server and Z-Push Backend for Zimbra properly setup. That VPS should already be able to handle ActiveSync connections from your ActiveSync clients to your Zimbra non 2FA enabled accounts.
+
+## Also check
+
+The companion project that adds Two-Factor authentication for Zimbra FOSS: [Maldua's Zimbra 2FA](https://github.com/maldua-suite/zimbra-maldua-2fa).
+
 ## Features
 
 ### 2FA Application Passcodes now work
@@ -43,7 +51,7 @@ ActiveSync logins are now logged in audit.log file.
 
 ## Admin documentation
 
-### Initial setup
+### Initial setup (Zimbra)
 
 Before even installing this extension you need to whitelist your ActiveSync server (Usually Z-Push + Z-Push Backend for Zimbra) ip into **zimbraHttpThrottleSafeIPs**.
 Let's assume that your Z-Push server ip seen by Zimbra is 1.2.3.4.
@@ -63,6 +71,35 @@ sudo su - zimbra
 zmprov mcf +zimbraHttpThrottleSafeIPs '1.2.3.4'
 exit
 ```
+
+### Initial setup (Z-Push VPS)
+
+Your existing Z-Push + Z-Push Backend for Zimbra VPS needs to be patched.
+
+Usually you would need to edit `/usr/share/z-push/backend/zimbra/zimbra.php` file in such a way that around 1000 line:
+
+```php
+        $body    = '<AuthRequest xmlns="urn:zimbraAccount">
+                        <account by="name">'.$this->_username.'</account>
+                        <password>'.$this->_password.'</password>
+                        <attrs><attr name="uid"/></attrs>
+                        <prefs><pref name="zimbraPrefTimeZoneId"/></prefs>
+                    </AuthRequest>';
+```
+
+is changed to:
+
+```php
+        $body    = '<ZetaActiveSyncAuthRequest xmlns="urn:zimbraAccount">
+                        <account by="name">'.$this->_username.'</account>
+                        <password>'.$this->_password.'</password>
+                        <attrs><attr name="uid"/></attrs>
+                        <prefs><pref name="zimbraPrefTimeZoneId"/></prefs>
+                    </ZetaActiveSyncAuthRequest>';
+```
+.
+
+That way the authentication request is no longer done to the usual AuthRequest soap page but to the ZetaActiveSyncAuthRequest soap page.
 
 ### Installation
 
