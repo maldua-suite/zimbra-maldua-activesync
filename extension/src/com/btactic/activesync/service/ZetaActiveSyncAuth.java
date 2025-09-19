@@ -89,6 +89,8 @@ import com.zimbra.cs.service.account.Auth;
 import com.zimbra.cs.service.account.GetPrefs;
 import com.zimbra.cs.service.account.ToXML;
 
+import com.btactic.activesync.util.ZetaWhitelistUtil;
+
 public final class ZetaActiveSyncAuth extends Auth {
 
     // Unfortunately we need to override this big handle method
@@ -102,6 +104,18 @@ public final class ZetaActiveSyncAuth extends Auth {
         context.put("proto", Protocol.zsync);
 
         ZimbraSoapContext zsc = getZimbraSoapContext(context);
+
+        // ZETACHANGE : Check requested IP
+        String rawRequestIP = zsc.getRequestIP();
+        String requestIP = ZetaWhitelistUtil.sanitizeIp(rawRequestIP);
+        boolean validActiveSyncIP = ZetaWhitelistUtil.isWhitelisted(requestIP);
+        if (!validActiveSyncIP) {
+            AuthFailedServiceException e = AuthFailedServiceException
+                .AUTH_FAILED("auth: IP: '" + requestIP + "' not a valid zimbraHttpThrottleSafeIPs, server or localhost ip");
+            AuthListener.invokeOnException(e);
+            throw e;
+        }
+
         Provisioning prov = Provisioning.getInstance();
 
         // Look up the specified account.  It is optional in the <authToken> case.
