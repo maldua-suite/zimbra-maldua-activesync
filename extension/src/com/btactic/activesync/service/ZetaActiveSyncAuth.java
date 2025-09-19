@@ -14,13 +14,14 @@
  */
 package com.btactic.activesync.service;
 
+import java.util.Map;
+
 import com.zimbra.cs.service.account.Auth;
 import com.zimbra.common.service.ServiceException;
 import com.zimbra.common.soap.Element;
 import com.zimbra.common.soap.AccountConstants;
 import com.zimbra.soap.SoapEngine;
-
-import java.util.Map;
+import com.zimbra.soap.ZimbraSoapContext;
 
 /**
  * Wraps Auth to inject port and protocol overrides before delegating.
@@ -29,12 +30,9 @@ public class ZetaActiveSyncAuth extends Auth {
 
     @Override
     public Element handle(Element request, Map<String, Object> context) throws ServiceException {
-        // override protocol and port before delegating
-        context.put("proto", "sync"); // or Protocol.sync if available
-        context.put(SoapEngine.REQUEST_PORT, context.getOrDefault(SoapEngine.REQUEST_PORT, 7073));
-
-        // Create a new request element to replicate the original for Auth
-        Element newRequest = Element.create(request.getQName());
+        ZimbraSoapContext zsc = getZimbraSoapContext(context);
+        // use zsc.getProtocol() to create a new Element with the same QName as the original request
+        Element newRequest = Element.create(zsc.getProtocol(), request.getQName());
 
         // Copy E_ACCOUNT if present
         Element acctEl = request.getOptionalElement(AccountConstants.E_ACCOUNT);
