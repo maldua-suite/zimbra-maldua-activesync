@@ -2,7 +2,7 @@
 
 ## About
 
-**MALDUA'S Zimbra ActiveSync Extension & Administration Zimlet** brought to you by [BTACTIC, open source & cloud solutions](https://www.btactic.com).
+**MALDUA'S Zimbra ActiveSync Extension** brought to you by [BTACTIC, open source & cloud solutions](https://www.btactic.com).
 
 ActiveSync is a mobile data synchronization app developed by Microsoft, originally released in 1996. It synchronizes data with handheld devices and desktop computers.
 
