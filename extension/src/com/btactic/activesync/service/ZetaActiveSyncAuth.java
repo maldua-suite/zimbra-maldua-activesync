@@ -91,9 +91,11 @@ import com.zimbra.cs.service.account.ToXML;
 
 public final class ZetaActiveSyncAuth extends Auth {
 
-    // Unfortunately we need to override this big method
-    // which means we will need to track changes to Auth.java
+    // Unfortunately we need to override this big handle method
+    // Also many private functions need to be cloned here too
+    // This means we will need to track changes to Auth.java
     // alongside Zimbra updates
+
     @Override
     public Element handle(Element request, Map<String, Object> context) throws ServiceException {
         ZimbraSoapContext zsc = getZimbraSoapContext(context);
@@ -427,6 +429,199 @@ public final class ZetaActiveSyncAuth extends Auth {
         httpReq.setAttribute(CsrfFilter.AUTH_TOKEN, at);
         AuthListener.invokeOnSuccess(acct);
         return doResponse(request, at, zsc, context, acct, csrfSupport, trustedToken, newDeviceId);
+    }
+
+    private Map<String, Object> getTrustedDeviceAttrs(ZimbraSoapContext zsc, String deviceId) {
+        Map<String, Object> deviceAttrs = new HashMap<String, Object>();
+        deviceAttrs.put(AuthContext.AC_DEVICE_ID, deviceId);
+        deviceAttrs.put(AuthContext.AC_USER_AGENT, zsc.getUserAgent());
+        return deviceAttrs;
+    }
+
+    private boolean tokenTypeAndElementValidation(TokenType tokenType, Element authElem, Element jwtElem) throws AuthFailedServiceException {
+        if (jwtElem != null && authElem != null) {
+            ZimbraLog.account.debug("both jwt and auth element can not be present in auth request");
+            return Boolean.FALSE;
+        }
+        if (jwtElem == null && authElem != null && TokenType.JWT.equals(tokenType)) {
+            ZimbraLog.account.debug("jwt token type not supported with auth element");
+            return Boolean.FALSE;
+        }
+        if (jwtElem != null && authElem == null && !TokenType.JWT.equals(tokenType)) {
+            ZimbraLog.account.debug("auth token type not supported with jwt element");
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
+    }
+
+    private void verifyTrustedDevice(Account account, TrustedDeviceToken td, Map<String, Object> attrs) throws ServiceException {
+        TrustedDevices trustedDeviceManager = TwoFactorAuth.getFactory().getTrustedDevices(account);
+        trustedDeviceManager.verifyTrustedDevice(td, attrs);
+    }
+
+    private Element needTwoFactorAuth(Map<String, Object> context, Element requestElement, Account account, TwoFactorAuth auth,
+            ZimbraSoapContext zsc, TokenType tokenType, String recoveryCode, TrustedDeviceToken td) throws ServiceException {
+        /* two cases here:
+         * 1) the user needs to provide a two-factor code.
+         *    in this case, the server returns a two-factor auth token in the response header that the client
+         *    must send back, along with the code, in order to finish the authentication process.
+         * 2) the user needs to set up two-factor auth.
+         *    this can happen if it's required for the account but the user hasn't received a secret yet.
+         */
+        if (!auth.twoFactorAuthEnabled()) {
+            throw AccountServiceException.TWO_FACTOR_SETUP_REQUIRED(getTwoFactorAuthRequiredSetupErrorMessage(account));
+        } else {
+            HttpServletRequest httpReq = (HttpServletRequest) context.get(SoapServlet.SERVLET_REQUEST);
+            HttpServletResponse httpResp = (HttpServletResponse) context.get(SoapServlet.SERVLET_RESPONSE);
+            Element response = zsc.createElement(AccountConstants.AUTH_RESPONSE);
+            AuthToken authToken = AuthProvider.getAuthToken(account, recoveryCode != null ? Usage.RESET_PASSWORD : Usage.TWO_FACTOR_AUTH, tokenType);
+            response.addUniqueElement(AccountConstants.E_TWO_FACTOR_AUTH_REQUIRED).setText("true");
+            response.addAttribute(AccountConstants.E_LIFETIME, authToken.getExpires() - System.currentTimeMillis(), Element.Disposition.CONTENT);
+            authToken.encodeAuthResp(response, false);
+            if (recoveryCode != null) {
+                boolean rememberMe = requestElement.getAttributeBool(AccountConstants.A_PERSIST_AUTH_TOKEN_COOKIE, false);
+                authToken.setIgnoreSameSite(requestElement.getAttributeBool(AccountConstants.A_IGNORE_SAME_SITE_COOKIE, false));
+                authToken.encode(httpReq, httpResp, false, ZimbraCookie.secureCookie(httpReq), rememberMe);
+            }
+            response.addUniqueElement(AccountConstants.E_TRUSTED_DEVICES_ENABLED).setText(account.isFeatureTrustedDevicesEnabled() ? "true" : "false");
+            AccountUtil.addTwoFactorAttributes(response, account);
+            if (td != null) {
+                td.encode(httpResp, response, ZimbraCookie.secureCookie(httpReq));
+            }
+            return response;
+        }
+    }
+
+    private Element authAccountInternal(Provisioning prov, Account acct, String code, Map<String, Object> authCtxt,
+            Map<String, Object> context, Element request, TwoFactorAuth twoFactorManager, ZimbraSoapContext zsc,
+            TokenType tokenType) throws ServiceException {
+        try {
+            prov.authAccount(acct, code, AuthContext.Protocol.soap, authCtxt);
+            return null;
+        } catch (AccountServiceException ase) {
+            if (AccountServiceException.CHANGE_PASSWORD.equals(ase.getCode())) {
+                ZimbraLog.account.info("zimbraPasswordMustChange is enabled so creating an auth-token used to change password.");
+                return needResetPassword(context, request, acct, twoFactorManager, zsc, tokenType);
+            } else {
+                throw ase;
+            }
+        }
+    }
+    /**
+     * This method is used to create a temporary auth token with usage RESET_PASSWORD.
+     * This auth token further be used for changing the password.
+     * This will be executed iff zimbraPasswordMustChange is set to true
+     * @param context
+     * @param requestElement
+     * @param account
+     * @param auth
+     * @param zsc
+     * @param tokenType
+     * @return response
+     * @throws ServiceException
+     */
+    private Element needResetPassword(Map<String, Object> context, Element requestElement, Account account, TwoFactorAuth auth,
+                                       ZimbraSoapContext zsc, TokenType tokenType) throws ServiceException {
+        Element response = zsc.createElement(AccountConstants.AUTH_RESPONSE);
+        AuthToken authToken = AuthProvider.getAuthToken(account, Usage.RESET_PASSWORD, tokenType);
+        response.addAttribute(AccountConstants.E_LIFETIME, authToken.getExpires() - System.currentTimeMillis(), Element.Disposition.CONTENT);
+        response.addUniqueElement(AccountConstants.E_RESET_PWD).setText("true");
+        authToken.encodeAuthResp(response, false);
+        return response;
+    }
+
+    private String getTwoFactorAuthRequiredSetupErrorMessage(Account account) {
+        String[] twoFactorAuthMethodAllowed = account.getTwoFactorAuthMethodAllowed();
+        if (twoFactorAuthMethodAllowed == null || twoFactorAuthMethodAllowed.length == 0) {
+            twoFactorAuthMethodAllowed = new String[]{ AccountConstants.E_TWO_FACTOR_METHOD_APP };
+        }
+        return "two-factor authentication setup required. Allowed method:" + Arrays.asList(twoFactorAuthMethodAllowed);
+    }
+
+    private Element doResponse(Element request, AuthToken at, ZimbraSoapContext zsc,
+            Map<String, Object> context, Account acct, boolean csrfSupport, TrustedDeviceToken td, String deviceId)
+    throws ServiceException {
+        Element response = zsc.createElement(AccountConstants.AUTH_RESPONSE);
+        at.encodeAuthResp(response, false);
+
+        /*
+         * bug 67078
+         * also return auth token cookie in http header
+         */
+        HttpServletRequest httpReq = (HttpServletRequest)context.get(SoapServlet.SERVLET_REQUEST);
+        HttpServletResponse httpResp = (HttpServletResponse)context.get(SoapServlet.SERVLET_RESPONSE);
+        boolean rememberMe = request.getAttributeBool(AccountConstants.A_PERSIST_AUTH_TOKEN_COOKIE, false);
+        at.setIgnoreSameSite(request.getAttributeBool(AccountConstants.A_IGNORE_SAME_SITE_COOKIE, false));
+        at.encode(httpReq, httpResp, false, ZimbraCookie.secureCookie(httpReq), rememberMe);
+
+        response.addAttribute(AccountConstants.E_LIFETIME, at.getExpires() - System.currentTimeMillis(), Element.Disposition.CONTENT);
+        boolean isCorrectHost = Provisioning.onLocalServer(acct);
+        if (isCorrectHost) {
+            Session session = updateAuthenticatedAccount(zsc, at, context, true);
+            if (session != null)
+                ZimbraSoapContext.encodeSession(response, session.getSessionId(), session.getSessionType());
+        }
+
+        Server localhost = Provisioning.getInstance().getLocalServer();
+        String referMode = localhost.getAttr(Provisioning.A_zimbraMailReferMode, "wronghost");
+        // if (!isCorrectHost || LC.zimbra_auth_always_send_refer.booleanValue()) {
+        if (Provisioning.MAIL_REFER_MODE_ALWAYS.equals(referMode) ||
+            (Provisioning.MAIL_REFER_MODE_WRONGHOST.equals(referMode) && !isCorrectHost)) {
+            response.addAttribute(AccountConstants.E_REFERRAL, acct.getAttr(Provisioning.A_zimbraMailHost), Element.Disposition.CONTENT);
+        }
+
+        Element prefsRequest = request.getOptionalElement(AccountConstants.E_PREFS);
+        if (prefsRequest != null) {
+            Element prefsResponse = response.addUniqueElement(AccountConstants.E_PREFS);
+            GetPrefs.handle(prefsRequest, prefsResponse, acct);
+        }
+
+        Element attrsRequest = request.getOptionalElement(AccountConstants.E_ATTRS);
+        if (attrsRequest != null) {
+            Element attrsResponse = response.addUniqueElement(AccountConstants.E_ATTRS);
+            Set<String> attrList = AttributeManager.getInstance().getAttrsWithFlag(AttributeFlag.accountInfo);
+            for (Iterator it = attrsRequest.elementIterator(AccountConstants.E_ATTR); it.hasNext(); ) {
+                Element e = (Element) it.next();
+                String name = e.getAttribute(AccountConstants.A_NAME);
+                if (name != null && attrList.contains(name)) {
+                    Object v = acct.getUnicodeMultiAttr(name);
+                    if (v != null) {
+                        ToXML.encodeAttr(attrsResponse, name, v);
+                    }
+                }
+            }
+        }
+
+        Element requestedSkinEl = request.getOptionalElement(AccountConstants.E_REQUESTED_SKIN);
+        String requestedSkin = requestedSkinEl != null ? requestedSkinEl.getText() : null;
+        String skin = SkinUtil.chooseSkin(acct, requestedSkin);
+        ZimbraLog.webclient.debug("chooseSkin() returned "+skin );
+        if (skin != null) {
+            response.addNonUniqueElement(AccountConstants.E_SKIN).setText(skin);
+        }
+
+        boolean csrfCheckEnabled = false;
+        if (httpReq.getAttribute(Provisioning.A_zimbraCsrfTokenCheckEnabled) != null) {
+            csrfCheckEnabled = (Boolean) httpReq.getAttribute(Provisioning.A_zimbraCsrfTokenCheckEnabled);
+        }
+
+        if (csrfSupport && csrfCheckEnabled) {
+            String accountId = at.getAccountId();
+            long authTokenExpiration = at.getExpires();
+            int tokenSalt = (Integer)httpReq.getAttribute(CsrfFilter.CSRF_SALT);
+            String token = CsrfUtil.generateCsrfToken(accountId,
+                authTokenExpiration, tokenSalt, at);
+            Element csrfResponse = response.addUniqueElement(HeaderConstants.E_CSRFTOKEN);
+            csrfResponse.addText(token);
+            httpResp.setHeader(Constants.CSRF_TOKEN, token);
+        }
+        if (td != null) {
+            td.encode(httpResp, response, ZimbraCookie.secureCookie(httpReq));
+        }
+        if (deviceId != null) {
+            response.addUniqueElement(AccountConstants.E_DEVICE_ID).setText(deviceId);
+        }
+        return response;
     }
 
 }
