@@ -176,6 +176,35 @@ This documentation is aimed at developers, not at admins.
 
 - Check: [RELEASE.md](RELEASE.md) on how to release the extension.
 
+## Some background
+
+When [2FA was finally ported to a proper Zimbra Extension for FOSS](https://github.com/maldua-suite/zimbra-maldua-2fa/#some-background) we found out that everything that relied on soap was not going to work seamlessly thanks to Application Passcodes.
+
+The main example was the [Z-Push using Application Passcode is not working as expected](https://github.com/maldua-suite/zimbra-maldua-2fa/issues/7) issue. As you can see in the early days we thought that [AuthMechanism implementation](https://github.com/maldua-suite/zimbra-maldua-2fa/issues/7#issuecomment-1826267239) was the problem.
+
+Later on I offered vincent (the Z-Push Backend for Zimbra) to implement [byPassTwoFactorCode](https://github.com/maldua-suite/zimbra-maldua-2fa/issues/7#issuecomment-2630408402) in zimbra-maldua-2fa itself. I still think that this approach would work if we ever implemented it. It needs a bit of improvement on the Z-Push Backend for Zimbra side so that it can detect when an account has 2FA enabled on it though.
+
+More discussion ensued regarding how this could be implemented in such a way that *Z-Push Backend for Zimbra* didn't have to be rewritten a lot.
+
+In the end [@JimDunphy](https://github.com/JimDunphy) brought up some LLMs to work and started its [zpush-shim](https://github.com/JimDunphy/zpush-shim/) project. I have mixed feelings about it. On the one hand it's a well documented project which would increase *Z-Push Backend for Zimbra* performance while interacting with Zimbra. On the other hand it tries to handle authentication on its own and it reminds on the 'Do not implement your own cryptography' statement. Leave that for the cryptography experts that write libraries you can use. Also it has to modify *Z-Push Backend for Zimbra* a lot. My patch is just changing two words. And I could go on but you get the point. Too much code for my taste.
+
+So after gathering more ideas while interacting with [JimDumphy's zpush-shim Just authenticate with zsync](https://github.com/JimDunphy/zpush-shim/issues/8) issue something clicked on my mind. We could just recreate the [Auth Soap page](https://github.com/JimDunphy/zpush-shim/issues/8#issuecomment-3273889085). This would mean that the useful lines at the extension would be 4 or 5 lines at maximum.
+
+Unfortunately it wasn't so easy. First attempts at pushing `proto` value as `zsync` as a part of the context were ignored. Apparently those had to be modified in the ZimbraSoapContext object. Unfortunately that object did not allow for those values to be modified and its class could not be extended because it was final. LLM suggested to use reflection but I am against using reflection by default.
+
+So, in the end I had to recreate Auth class main method and its privated methods so that I could 'edit' it.
+
+It's not pretty but it works.
+
+At this point some more ideas that come to my mind are:
+
+- Removing audit.log logging (*Z-Push Backend for Zimbra* generates too many login entries.).
+- Add an admin zimlet that let's you edit the 'Zimbra Mobile Feature Enabled' attribute in both ClassOfService and Account so that it's taken into account.
+- Help Z-Push Backend for Zimbra explore the reuse of Zimbra Auth Tokens so that it doesn't need to relogin each time it needs something.
+- Port Z-Push as a proper ActiveSync server inside Zimbra (Yeah, probably too much work for what it's worth).
+
+In any case this first version is complete. You can have a working ActiveSync server (Z-Push based) linked to your Zimbra FOSS, enable 2FA, apply this project and then anyone with 2FA enabled can have its Application Passcode working.
+
 ## Licenses
 
 ### License (Extension)
