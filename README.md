@@ -47,7 +47,7 @@ ActiveSync logins are now logged in audit.log file.
 
 ## Admin documentation
 
-### Initial setup (Zimbra)
+### Initial setup (Zimbra) {Step 1 of 3}
 
 Before even installing this extension you need to whitelist your ActiveSync server (Usually Z-Push + Z-Push Backend for Zimbra) ip into **zimbraHttpThrottleSafeIPs**.
 Let's assume that your Z-Push server ip seen by Zimbra is 1.2.3.4.
@@ -68,7 +68,7 @@ zmprov mcf +zimbraHttpThrottleSafeIPs '1.2.3.4'
 exit
 ```
 
-### Initial setup (Z-Push VPS)
+### Initial setup (Z-Push VPS) {Step 2 of 3}
 
 Your existing Z-Push + Z-Push Backend for Zimbra VPS needs to be patched.
 
@@ -99,7 +99,7 @@ That way the authentication request is no longer done to the usual AuthRequest s
 
 ### Installation
 
-#### Automatic installation
+#### Automatic installation {Step 3 of 3}
 
 **Notice:** In a Multi-Server cluster these commands have to be run on each one of the mailbox nodes.
 
