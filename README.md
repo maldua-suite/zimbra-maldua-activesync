@@ -18,7 +18,7 @@ Please notice that **it does not bring an equivalent functionality to an ActiveS
 
 ## Requisites
 
-- This project assumes that you already have a VPS with Z-Push server and Z-Push Backend for Zimbra properly setup. That VPS should already be able to handle ActiveSync connections from your ActiveSync clients to your Zimbra non 2FA enabled accounts.
+- A VPS with [Z-Push](https://github.com/Z-Hub/Z-Push/) and [Z-Push Zimbra Backend](https://sourceforge.net/projects/zimbrabackend/) properly setup. That VPS should already be able to handle ActiveSync connections from your ActiveSync clients to your Zimbra non 2FA enabled accounts.
 
 ## Also check
 
