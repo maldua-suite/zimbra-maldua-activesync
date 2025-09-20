@@ -205,6 +205,10 @@ At this point some more ideas that come to my mind are:
 
 In any case this first version is complete. You can have a working ActiveSync server (Z-Push based) linked to your Zimbra FOSS, enable 2FA, apply this project and then anyone with 2FA enabled can have its Application Passcode working.
 
+## Similar projects
+
+- [zpush-shim](https://github.com/JimDunphy/zpush-shim/). Cross-platform, high-performance Java shim for Z-Push Zimbra backend that provides direct access to Zimbra internal APIs, bypassing SOAP overhead.
+
 ## Licenses
 
 ### License (Extension)
