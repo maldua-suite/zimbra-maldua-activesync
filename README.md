@@ -12,12 +12,6 @@ This ActiveSync helper will improve integration with [Z-Push](https://github.com
 
 Please notice that **it does not bring an equivalent functionality to an ActiveSync server on its own.**
 
----
-
-**WARNING: The development stage is in ALPHA QUALITY and it is not ready for production deployment.**
-
----
-
 ## Supported Zimbra versions
 
 - Zimbra 10.1.x
