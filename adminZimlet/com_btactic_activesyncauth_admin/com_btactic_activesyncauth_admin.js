@@ -262,7 +262,7 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_activesyncauth_admin"]){
       '</li>' +
       '</ul>'
 
-    // Additional 2FA attributes - Accounts (Definition)
+    // Additional ActiveSync Auth attributes - Accounts (Definition)
     if (window.ZaAccount && ZaAccount.myXModel && ZaAccount.myXModel.items) {
         ZaAccount.myXModel.items.push({id: "zimbraFeatureTwoFactorAuthAvailable", type: _COS_ENUM_, ref: "attrs/" + "zimbraFeatureTwoFactorAuthAvailable", choices: ZaModel.BOOLEAN_CHOICES});
         ZaAccount.myXModel.items.push({id: "zimbraTwoFactorAuthEnabled", type: _COS_ENUM_, ref: "attrs/" + "zimbraTwoFactorAuthEnabled", choices: ZaModel.BOOLEAN_CHOICES});
@@ -275,7 +275,7 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_activesyncauth_admin"]){
         ZaAccount.myXModel.items.push({id: "zimbraTwoFactorCodeLifetimeForEmail", type: _COS_MLIFETIME_, ref: "attrs/" + "zimbraTwoFactorCodeLifetimeForEmail"});
     }
 
-    // Additional 2FA attributes - Accounts (Edit)
+    // Additional ActiveSync Auth attributes - Accounts (Edit)
     if(ZaTabView.XFormModifiers["ZaAccountXFormView"]) {
         com_btactic_activesyncauth_ext.AccountXFormModifier= function (xFormObject,entry) {
 
@@ -320,7 +320,7 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_activesyncauth_admin"]){
         ZaTabView.XFormModifiers["ZaAccountXFormView"].push(com_btactic_activesyncauth_ext.AccountXFormModifier);
     }
 
-    // Additional 2FA attributes - ClassOfService (Definition)
+    // Additional ActiveSync Auth attributes - ClassOfService (Definition)
     if (window.ZaCos && ZaCos.myXModel && ZaCos.myXModel.items) {
         ZaCos.myXModel.items.push({id: "zimbraFeatureTwoFactorAuthAvailable", type: _COS_ENUM_, ref: "attrs/" + "zimbraFeatureTwoFactorAuthAvailable", choices: ZaModel.BOOLEAN_CHOICES});
         ZaCos.myXModel.items.push({id: "zimbraFeatureTwoFactorAuthRequired", type: _COS_ENUM_, ref: "attrs/" + "zimbraFeatureTwoFactorAuthRequired", choices: ZaModel.BOOLEAN_CHOICES});
@@ -330,7 +330,7 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_activesyncauth_admin"]){
         ZaCos.myXModel.items.push({id: "zimbraTwoFactorCodeLifetimeForEmail", type: _COS_MLIFETIME_, ref: "attrs/" + "zimbraTwoFactorCodeLifetimeForEmail"});
     }
 
-    // Additional 2FA attributes - ClassOfService (Edit)
+    // Additional ActiveSync Auth attributes - ClassOfService (Edit)
     if(ZaTabView.XFormModifiers["ZaCosXFormView"]) {
         com_btactic_activesyncauth_ext.myCosXFormModifier= function (xFormObject,entry) {
 
@@ -366,7 +366,7 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_activesyncauth_admin"]){
         ZaTabView.XFormModifiers["ZaCosXFormView"].push(com_btactic_activesyncauth_ext.myCosXFormModifier);
     }
 
-    // Additional 2FA attributes - Domain (Definition)
+    // Additional ActiveSync Auth attributes - Domain (Definition)
     if (window.ZaDomain && ZaDomain.myXModel && ZaDomain.myXModel.items) {
         ZaDomain.myXModel.items.push({id: "zimbraTwoFactorAuthMethodAllowed", type: _LIST_, dataType: _STRING_, ref: "attrs/" + "zimbraTwoFactorAuthMethodAllowed", choices: ZaModel.ZETA_TWOFACTORAUTH_METHOD_CHOICES});
         ZaDomain.myXModel.items.push({id: "zimbraTwoFactorCodeLifetimeForEmail", type: _LIFETIME_, ref: "attrs/" + "zimbraTwoFactorCodeLifetimeForEmail"});
@@ -376,7 +376,7 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_activesyncauth_admin"]){
         ZaDomain.myXModel.items.push({id: "zimbraTwoFactorCodeEmailBodyHtml", type: _STRING_, ref: "attrs/" + "zimbraTwoFactorCodeEmailBodyHtml"});
     }
 
-    // Additional 2FA attributes - Domain (Edit)
+    // Additional ActiveSync Auth attributes - Domain (Edit)
     if(ZaTabView.XFormModifiers["ZaDomainXFormView"]) {
         com_btactic_activesyncauth_ext.myDomainXFormModifier= function (xFormObject,entry) {
 
@@ -414,7 +414,7 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_activesyncauth_admin"]){
         ZaTabView.XFormModifiers["ZaDomainXFormView"].push(com_btactic_activesyncauth_ext.myDomainXFormModifier);
     }
 
-    // Additional 2FA attributes - GlobalConfig (Definition)
+    // Additional ActiveSync Auth attributes - GlobalConfig (Definition)
     if (window.ZaGlobalConfig && ZaGlobalConfig.myXModel && ZaGlobalConfig.myXModel.items) {
         ZaGlobalConfig.myXModel.items.push({id: "zimbraTwoFactorCodeLifetimeForEmail", type: _COS_MLIFETIME_, ref: "attrs/" + "zimbraTwoFactorCodeLifetimeForEmail"});
         ZaGlobalConfig.myXModel.items.push({id: "zimbraTwoFactorCodeEmailFrom", type: _EMAIL_ADDRESS_, ref: "attrs/" + "zimbraTwoFactorCodeEmailFrom"});
@@ -423,7 +423,7 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_activesyncauth_admin"]){
         ZaGlobalConfig.myXModel.items.push({id: "zimbraTwoFactorCodeEmailBodyHtml", type: _STRING_, ref: "attrs/" + "zimbraTwoFactorCodeEmailBodyHtml"});
     }
 
-    // Additional 2FA attributes - GlobalConfig (Edit)
+    // Additional ActiveSync Auth attributes - GlobalConfig (Edit)
     if(ZaTabView.XFormModifiers["GlobalConfigXFormView"]) {
         com_btactic_activesyncauth_ext.myGlobalConfigXFormModifier= function (xFormObject,entry) {
 
@@ -460,7 +460,7 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_activesyncauth_admin"]){
         ZaTabView.XFormModifiers["GlobalConfigXFormView"].push(com_btactic_activesyncauth_ext.myGlobalConfigXFormModifier);
     }
 
-    // Additional 2FA attributes - Accounts (New)
+    // Additional ActiveSync Auth attributes - Accounts (New)
     com_btactic_activesyncauth_ext.ACC_WIZ_GROUP = {
         type:_ZAWIZGROUP_,
         items:[
@@ -502,7 +502,7 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_activesyncauth_admin"]){
         ZaXDialog.XFormModifiers["ZaNewAccountXWizard"].push(com_btactic_activesyncauth_ext.AccountXWizModifier);
     }
 
-    // Additional 2FA attributes - ClassOfService (New)
+    // Additional ActiveSync Auth attributes - ClassOfService (New)
     com_btactic_activesyncauth_ext.COS_WIZ_GROUP = {
         type:_ZAWIZGROUP_,
         items:[
@@ -544,7 +544,7 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_activesyncauth_admin"]){
         ZaXDialog.XFormModifiers["ZaNewCosXWizard"].push(com_btactic_activesyncauth_ext.CosXWizModifier);
     }
 
-    // Additional 2FA attributes - Domain (New)
+    // Additional ActiveSync Auth attributes - Domain (New)
     com_btactic_activesyncauth_ext.DOMAIN_WIZ_GROUP = {
         type:_ZAWIZGROUP_,
         items:[
