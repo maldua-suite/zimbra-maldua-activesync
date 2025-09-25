@@ -1,14 +1,14 @@
-# Maldua's Zimbra ActiveSync
+# Maldua's Zimbra ActiveSync Auth
 
-![Zimbra ActiveSync Splash](images/zimbra-maldua-activesync-splash.png)
+![Zimbra ActiveSync Auth Splash](images/zimbra-maldua-activesync-auth-splash.png)
 
 ## About
 
-**MALDUA'S Zimbra ActiveSync Extension** brought to you by [BTACTIC, open source & cloud solutions](https://www.btactic.com).
+**MALDUA'S Zimbra ActiveSync Auth Extension** brought to you by [BTACTIC, open source & cloud solutions](https://www.btactic.com).
 
 ActiveSync is a mobile data synchronization app developed by Microsoft, originally released in 1996. It synchronizes data with handheld devices and desktop computers.
 
-This ActiveSync helper will improve integration with [Z-Push](https://github.com/Z-Hub/Z-Push/) and [Z-Push Zimbra Backend](https://sourceforge.net/projects/zimbrabackend/).
+This ActiveSync Auth extension will improve integration with [Z-Push](https://github.com/Z-Hub/Z-Push/) and [Z-Push Zimbra Backend](https://sourceforge.net/projects/zimbrabackend/).
 
 Please notice that **it does not bring an equivalent functionality to an ActiveSync server on its own.**
 
@@ -106,9 +106,9 @@ That way the authentication request is no longer done to the usual AuthRequest s
 ```
 sudo -i # Become root
 cd /tmp
-wget 'https://github.com/maldua-suite/zimbra-maldua-activesync/releases/download/v0.1.0/zimbra-maldua-activesync_0.1.0.tar.gz'
-tar xzf zimbra-maldua-activesync_0.1.0.tar.gz
-cd zimbra-maldua-activesync_0.1.0
+wget 'https://github.com/maldua-suite/zimbra-maldua-activesync-auth/releases/download/v0.1.0/zimbra-maldua-activesync-auth_0.1.0.tar.gz'
+tar xzf zimbra-maldua-activesync-auth_0.1.0.tar.gz
+cd zimbra-maldua-activesync-auth_0.1.0
 ```
 
 For regular installation or upgrade you can run:
@@ -133,11 +133,11 @@ su - zimbra -c 'zmmailboxdctl restart'
 ```
 sudo -i # Become root
 cd /tmp
-wget 'https://github.com/maldua-suite/zimbra-maldua-activesync/releases/download/v0.1.0/zimbra-maldua-activesync_0.1.0.tar.gz'
-tar xzf zimbra-maldua-activesync_0.1.0.tar.gz
-chown zimbra:zimbra zimbra-maldua-activesync_0.1.0
-cd zimbra-maldua-activesync_0.1.0
-cp zetaactivesync.jar /opt/zimbra/lib/ext/twofactorauth/zetaactivesync.jar
+wget 'https://github.com/maldua-suite/zimbra-maldua-activesync-auth/releases/download/v0.1.0/zimbra-maldua-activesync-auth_0.1.0.tar.gz'
+tar xzf zimbra-maldua-activesync-auth_0.1.0.tar.gz
+chown zimbra:zimbra zimbra-maldua-activesync-auth_0.1.0
+cd zimbra-maldua-activesync-auth_0.1.0
+cp zetaactivesyncauth.jar /opt/zimbra/lib/ext/zetaactivesyncauth/zetaactivesyncauth.jar
 ```
 
 In order for the ActiveSync extension to apply you need to restart mailboxd with:
@@ -150,7 +150,7 @@ su - zimbra -c 'zmmailboxdctl restart'
 
 ```
 sudo -i # Become root
-mv /opt/zimbra/lib/ext/twofactorauth/zetaactivesync.jar /root/zetaactivesync.jar-REMOVED-ON-YYYY-MM-DD
+mv /opt/zimbra/lib/ext/zetaactivesyncauth/zetaactivesyncauth.jar /root/zetaactivesyncauth.jar-REMOVED-ON-YYYY-MM-DD
 ```
 
 In order for the removal to be applied you need to restart mailboxd with:
@@ -214,7 +214,7 @@ In any case this first version is complete. You can have a working ActiveSync se
 ### License (Extension)
 
 ```
-Maldua Zimbra ActiveSync Extension
+Maldua Zimbra ActiveSync Auth Extension
 Copyright (C) 2025 BTACTIC, S.C.C.L.
 
 This program is free software: you can redistribute it and/or modify
@@ -234,7 +234,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/.
 ### License (Administration zimlet)
 
 ```
-Maldua Zimbra ActiveSync Administration zimlet
+Maldua Zimbra ActiveSync Auth Administration zimlet
 Copyright (C) 2025 BTACTIC, S.C.C.L.
 
 This program is free software: you can redistribute it and/or modify
