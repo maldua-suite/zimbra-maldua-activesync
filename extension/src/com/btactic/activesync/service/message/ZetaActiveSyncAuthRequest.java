@@ -1,6 +1,6 @@
 /*
  * ***** BEGIN LICENSE BLOCK *****
- * Maldua Zimbra ActiveSync Extension
+ * Maldua Zimbra ActiveSync Auth Extension
  * Copyright (C) 2025 BTACTIC, S.C.C.L.
  *
  * This program is free software: you can redistribute it and/or modify it under

@@ -4,6 +4,6 @@ extension:
 	ant jar
 
 clean:
-	rm -f zetaactivesync.jar
+	rm -f zetaactivesyncauth.jar
 
 .PHONY: all extension

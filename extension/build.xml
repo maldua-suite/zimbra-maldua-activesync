@@ -1,12 +1,12 @@
-<project name="zetaactivesync" default="jar" basedir=".">
+<project name="zetaactivesyncauth" default="jar" basedir=".">
     <description>
-        Build file for the Maldua Zimbra ActiveSync Extension.
+        Build file for the Maldua Zimbra ActiveSync Auth Extension.
     </description>
 
     <property name="lib"   value="lib/"/>
     <property name="build" value="build/"/>
     <property name="src"   value="src/"/>
-    <property name="jar"   value="zetaactivesync.jar"/>
+    <property name="jar"   value="zetaactivesyncauth.jar"/>
 
     <path id="libraries">
         <fileset dir="${lib}" >
@@ -17,7 +17,7 @@
 
     <target name="clean">
       <delete dir="${build}"/>
-      <delete file="zetaactivesync.jar"/>
+      <delete file="zetaactivesyncauth.jar"/>
       <mkdir dir="${build}"/>
     </target>
 
@@ -43,7 +43,7 @@
              compress="false"
              basedir="${build}">
             <manifest>
-                <attribute name="Zimbra-Extension-Class" value="com.btactic.activesync.ZetaActiveSyncExtension" />
+                <attribute name="Zimbra-Extension-Class" value="com.btactic.activesync.ZetaActiveSyncAuthExtension" />
             </manifest>
             <fileset dir="${build}" />
         </jar>

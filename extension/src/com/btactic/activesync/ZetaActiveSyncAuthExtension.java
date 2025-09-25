@@ -1,6 +1,6 @@
 /*
  * ***** BEGIN LICENSE BLOCK *****
- * Maldua Zimbra ActiveSync Extension
+ * Maldua Zimbra ActiveSync Auth Extension
  * Copyright (C) 2025 BTACTIC, S.C.C.L.
  *
  * This program is free software: you can redistribute it and/or modify it under
@@ -22,7 +22,7 @@ import com.zimbra.soap.SoapServlet;
 /**
  *
  */
-public class ZetaActiveSyncExtension implements ZimbraExtension {
+public class ZetaActiveSyncAuthExtension implements ZimbraExtension {
 
     /**
      * Defines a name for the extension. It must be an identifier.

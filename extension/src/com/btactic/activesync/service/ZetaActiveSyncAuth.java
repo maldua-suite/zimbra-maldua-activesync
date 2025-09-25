@@ -1,6 +1,6 @@
 /*
  * ***** BEGIN LICENSE BLOCK *****
- * Maldua Zimbra ActiveSync Extension
+ * Maldua Zimbra ActiveSync Auth Extension
  * Copyright (C) 2025 BTACTIC, S.C.C.L.
  *
  * Zimbra Collaboration Suite Server
