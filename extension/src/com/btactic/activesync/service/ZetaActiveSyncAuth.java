@@ -353,16 +353,16 @@ public final class ZetaActiveSyncAuth extends Auth {
                         // doesn't touch this code, so their authentication happens in ZimbraAuth.
                         AppSpecificPasswords appPasswords = TwoFactorAuth.getFactory().getAppSpecificPasswords(acct, acctValuePassedIn);
                         appPasswords.authenticate(password);
-                        // ZETACHANGE : Forced logging on audit.log
-                        ZimbraLog.security.info(
-                            ZimbraLog.encodeAttrs(
-                                new String[] {
-                                    "cmd",      "Auth",
-                                    "account",  acct.getName(),
-                                    "protocol", "zsync"
-                                }
-                            )
-                        );
+                        // // ZETACHANGE : Forced logging on audit.log
+                        // ZimbraLog.security.info(
+                        //     ZimbraLog.encodeAttrs(
+                        //         new String[] {
+                        //             "cmd",      "Auth",
+                        //             "account",  acct.getName(),
+                        //             "protocol", "zsync"
+                        //         }
+                        //     )
+                        // );
                     } else {
                         Element responseElement = authAccountInternal(prov, acct, code, authCtxt, context, request, twoFactorManager, zsc, tokenType);
                         if (responseElement != null) {
