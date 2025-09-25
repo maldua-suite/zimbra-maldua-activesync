@@ -1,4 +1,4 @@
-# Release Maldua Zimbra ActiveSync Extension
+# Release Maldua Zimbra ActiveSync Auth Extension
 
 ## Introduction
 
@@ -26,9 +26,9 @@ apt install ant git make zip sed
 sudo su - zimbra
 mkdir -p /opt/zimbra/conf/scripts
 cd /opt/zimbra/conf/scripts
-git clone 'https://github.com/maldua-suite/zimbra-maldua-activesync.git'
+git clone 'https://github.com/maldua-suite/zimbra-maldua-activesync-auth.git'
 
-cd zimbra-maldua-activesync/extension
+cd zimbra-maldua-activesync-auth/extension
 ln -s /opt/zimbra/lib/jars lib
 ```
 
@@ -37,7 +37,7 @@ ln -s /opt/zimbra/lib/jars lib
 ```
 sudo su - zimbra
 
-cd /opt/zimbra/conf/scripts/zimbra-maldua-activesync/
+cd /opt/zimbra/conf/scripts/zimbra-maldua-activesync-auth/
 ./release.sh
 ```
 
@@ -45,7 +45,7 @@ cd /opt/zimbra/conf/scripts/zimbra-maldua-activesync/
 
 A new tar.gz file should be found at:
 ```
-/opt/zimbra/conf/scripts/zimbra-maldua-activesync/release/zimbra-maldua-activesync_0.1.0.tar.gz
+/opt/zimbra/conf/scripts/zimbra-maldua-activesync-auth/release/zimbra-maldua-activesync-auth_0.1.0.tar.gz
 ```
 where 0.1.0 is the version.
 .

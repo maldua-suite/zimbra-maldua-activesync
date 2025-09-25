@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VERSION="$(head -n 1 VERSION)"
-ZIP_DIR="zimbra-maldua-activesync_${VERSION}"
+ZIP_DIR="zimbra-maldua-activesync-auth_${VERSION}"
 VERSION_TEMPLATE="9.99.999"
 
 # Build extension
@@ -11,7 +11,7 @@ cd ..
 
 # Zip directory
 mkdir release/${ZIP_DIR}
-cp extension/zetaactivesync.jar release/${ZIP_DIR}/zetaactivesync.jar
+cp extension/zetaactivesyncauth.jar release/${ZIP_DIR}/zetaactivesyncauth.jar
 
 cp install.sh release/${ZIP_DIR}/install.sh
 

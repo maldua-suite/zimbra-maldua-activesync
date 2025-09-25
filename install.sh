@@ -32,7 +32,7 @@ function restart_notice () {
 
 cat << EOF
 
-- Zimbra ActiveSync Extension
+- Zimbra ActiveSync Auth Extension
 was installed.
 
 Please restart mailboxd thanks to:
@@ -62,8 +62,8 @@ fi
 
 zmacl_disable
 
-cp zetaactivesync.jar /opt/zimbra/lib/ext/twofactorauth/zetaactivesync.jar
-chmod 444 /opt/zimbra/lib/ext/twofactorauth/zetaactivesync.jar
+cp zetaactivesyncauth.jar /opt/zimbra/lib/ext/zetaactivesyncauth/zetaactivesyncauth.jar
+chmod 444 /opt/zimbra/lib/ext/zetaactivesyncauth/zetaactivesyncauth.jar
 
 zmacl_enable
 
