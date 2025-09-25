@@ -1,7 +1,7 @@
 /*
  * ***** BEGIN LICENSE BLOCK *****
- * Maldua Zimbra 2FA Extension
- * Copyright (C) 2023 BTACTIC, S.C.C.L.
+ * Maldua Zimbra ActiveSync Auth Extension
+ * Copyright (C) 2025 BTACTIC, S.C.C.L.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,18 +19,18 @@
  * ***** END LICENSE BLOCK *****
  */
 
-if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_twofactorauth_admin"]){
+if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_activesyncauth_admin"]){
 
-    function com_btactic_twofactorauth_ext () {
+    function com_btactic_activesyncauth_ext () {
 
     }
 
     if (window.console && console.log) {
-        console.log("Start loading com_btactic_twofactorauth_admin.js");
+        console.log("Start loading com_btactic_activesyncauth_admin.js");
     }
 
     // Inspired on checkInteropSettings function from ZaItem.js
-    com_btactic_twofactorauth_admin.disableMethod =
+    com_btactic_activesyncauth_admin.disableMethod =
     function (method) {
 
         var controller =  ZaApp.getInstance().getCurrentController() ;
@@ -65,18 +65,18 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_twofactorauth_admin"]){
         return [
             {
                 value: "app",
-                label: com_btactic_twofactorauth_admin.lbl_app
+                label: com_btactic_activesyncauth_admin.lbl_app
             },
             {
                 value: "email",
-                label: com_btactic_twofactorauth_admin.lbl_email
+                label: com_btactic_activesyncauth_admin.lbl_email
             }
         ];
     }
 
     ZaModel.ZETA_TWOFACTORAUTH_METHOD_CHOICES= ZaModel.getZetaTwoFactorAuthMethodChoices ;
 
-    com_btactic_twofactorauth_ext.getFirstSwitchPosition = function (xFormObject) {
+    com_btactic_activesyncauth_ext.getFirstSwitchPosition = function (xFormObject) {
         var cnt = xFormObject.items.length;
         var i = 0;
         for(i = 0; i <cnt; i++) {
@@ -87,16 +87,16 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_twofactorauth_admin"]){
         return i;
     }
 
-    com_btactic_twofactorauth_ext.viewAppButtonThis = '';
+    com_btactic_activesyncauth_ext.viewAppButtonThis = '';
 
-    com_btactic_twofactorauth_ext.viewAppButton = function() {
+    com_btactic_activesyncauth_ext.viewAppButton = function() {
         // Hardcode number of methods: 2
         // App button: 0
         // Email button: 1
 
-        com_btactic_twofactorauth_ext.viewAppButtonThis = this;
+        com_btactic_activesyncauth_ext.viewAppButtonThis = this;
 
-        var enableCheckboxId = com_btactic_twofactorauth_ext.enableCheckboxId;
+        var enableCheckboxId = com_btactic_activesyncauth_ext.enableCheckboxId;
         var isEnabled = true;
         if (enableCheckboxId != '') {
             var app_button_ix = 0;
@@ -117,16 +117,16 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_twofactorauth_admin"]){
         return (isEnabled);
     }
 
-    com_btactic_twofactorauth_ext.viewEmailButtonThis = '';
+    com_btactic_activesyncauth_ext.viewEmailButtonThis = '';
 
-    com_btactic_twofactorauth_ext.viewEmailButton = function() {
+    com_btactic_activesyncauth_ext.viewEmailButton = function() {
         // Hardcode number of methods: 2
         // App button: 0
         // Email button: 1
 
-        com_btactic_twofactorauth_ext.viewEmailButtonThis = this;
+        com_btactic_activesyncauth_ext.viewEmailButtonThis = this;
 
-        var enableCheckboxId = com_btactic_twofactorauth_ext.enableCheckboxId;
+        var enableCheckboxId = com_btactic_activesyncauth_ext.enableCheckboxId;
         var isEnabled = true;
         if (enableCheckboxId != '') {
             var app_button_ix = 0;
@@ -147,7 +147,7 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_twofactorauth_admin"]){
         return (isEnabled);
     }
 
-    com_btactic_twofactorauth_ext.disableEnableMethods = function() {
+    com_btactic_activesyncauth_ext.disableEnableMethods = function() {
         // It only makes sense to update the disable buttons when this function is called
         // for the second time (__disableEnableMethodsON variable keeps track of it)
         // because then the checkboxes have been created.
@@ -156,7 +156,7 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_twofactorauth_admin"]){
         // that implement enableDisableChecks.
 
         var enableCheckboxId = this.getId();
-        com_btactic_twofactorauth_ext.enableCheckboxId = enableCheckboxId;
+        com_btactic_activesyncauth_ext.enableCheckboxId = enableCheckboxId;
 
         // Hardcode number of methods: 2
         // App button: 0
@@ -170,16 +170,16 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_twofactorauth_admin"]){
                   checkbox.disabled = true;
                   if ( (this.__disableEnableMethodsON) && ( i == app_button_ix ) ) {
                       if (!(checkbox.checked)) {
-                          com_btactic_twofactorauth_ext.viewAppButtonThis.disableElement();
+                          com_btactic_activesyncauth_ext.viewAppButtonThis.disableElement();
                       } else {
-                          com_btactic_twofactorauth_ext.viewAppButtonThis.enableElement();
+                          com_btactic_activesyncauth_ext.viewAppButtonThis.enableElement();
                       }
                   }
                   if ( (this.__disableEnableMethodsON) && ( i == email_button_ix ) ) {
                       if (!(checkbox.checked)) {
-                          com_btactic_twofactorauth_ext.viewEmailButtonThis.disableElement();
+                          com_btactic_activesyncauth_ext.viewEmailButtonThis.disableElement();
                       } else {
-                          com_btactic_twofactorauth_ext.viewEmailButtonThis.enableElement();
+                          com_btactic_activesyncauth_ext.viewEmailButtonThis.enableElement();
                       }
                   }
                 }
@@ -191,73 +191,73 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_twofactorauth_admin"]){
 
     }
 
-    com_btactic_twofactorauth_ext.initDisableEnableMethods = function () {
+    com_btactic_activesyncauth_ext.initDisableEnableMethods = function () {
         if (!this.__initDisableEnableMethodsON) {
           this.__initDisableEnableMethodsON = true;
-          this.items[0].items[0].setElementEnabled = com_btactic_twofactorauth_ext.disableEnableMethods;
+          this.items[0].items[0].setElementEnabled = com_btactic_activesyncauth_ext.disableEnableMethods;
         }
         return false;
     }
 
-    com_btactic_twofactorauth_ext.viewEmailFrom = function() {
+    com_btactic_activesyncauth_ext.viewEmailFrom = function() {
         return false;
     }
 
     // Using getResource from a ZmZimletBase object does not seem to work in admin
-    com_btactic_twofactorauth_admin.zimletImagesPath = "/service/zimlet/com_btactic_twofactorauth_admin/images"
+    com_btactic_activesyncauth_admin.zimletImagesPath = "/service/zimlet/com_btactic_activesyncauth_admin/images"
 
 
-    com_btactic_twofactorauth_admin.malduaHeader =
+    com_btactic_activesyncauth_admin.malduaHeader =
       '<a target="_blank" href="https://github.com/maldua-suite/maldua-suite">' +
       '<img align="right" alt="Maldua Suite for Zimbra Collaboration Server" src="' +
-      com_btactic_twofactorauth_admin.zimletImagesPath + "/" + "maldua_logo.png" +
+      com_btactic_activesyncauth_admin.zimletImagesPath + "/" + "maldua_logo.png" +
       '">' +
       '</a>'
 
-    com_btactic_twofactorauth_admin.zetaPromoWithImage =
+    com_btactic_activesyncauth_admin.zetaPromoWithImage =
       '<img src="' +
-      com_btactic_twofactorauth_admin.zimletImagesPath + "/" + "btactic_logo.png" +
+      com_btactic_activesyncauth_admin.zimletImagesPath + "/" + "btactic_logo.png" +
       '">' +
       " " +
-      com_btactic_twofactorauth_admin.zetaPromo +
-      com_btactic_twofactorauth_admin.malduaHeader;
+      com_btactic_activesyncauth_admin.zetaPromo +
+      com_btactic_activesyncauth_admin.malduaHeader;
 
-    com_btactic_twofactorauth_admin.zetaPromoCss = "font-size:16pt; font-weight: bold;";
+    com_btactic_activesyncauth_admin.zetaPromoCss = "font-size:16pt; font-weight: bold;";
 
     // TODO: Include somehow ZsMsg.properties (and their translations) so that this is not hardcoded
     // in English
     // Apparently ZaMsg is included but ZsMsg is not
-    // com_btactic_twofactorauth_admin.ZsMsg_twoFactorAuthCodeEmailSubject = ZsMsg.twoFactorAuthCodeEmailSubject
-    // com_btactic_twofactorauth_admin.ZsMsg_twoFactorAuthCodeEmailBodyText = ZsMsg.twoFactorAuthCodeEmailBodyText
-    // com_btactic_twofactorauth_admin.ZsMsg_twoFactorAuthCodeEmailBodyHtml = ZsMsg.twoFactorAuthCodeEmailBodyHtml
+    // com_btactic_activesyncauth_admin.ZsMsg_twoFactorAuthCodeEmailSubject = ZsMsg.twoFactorAuthCodeEmailSubject
+    // com_btactic_activesyncauth_admin.ZsMsg_twoFactorAuthCodeEmailBodyText = ZsMsg.twoFactorAuthCodeEmailBodyText
+    // com_btactic_activesyncauth_admin.ZsMsg_twoFactorAuthCodeEmailBodyHtml = ZsMsg.twoFactorAuthCodeEmailBodyHtml
 
-    com_btactic_twofactorauth_admin.ZsMsg_twoFactorAuthCodeEmailSubject = 'Two-factor authentication code'
-    com_btactic_twofactorauth_admin.ZsMsg_twoFactorAuthCodeEmailBodyText =
+    com_btactic_activesyncauth_admin.ZsMsg_twoFactorAuthCodeEmailSubject = 'Two-factor authentication code'
+    com_btactic_activesyncauth_admin.ZsMsg_twoFactorAuthCodeEmailBodyText =
       'Your two-factor authentication code is: {0}<br />' +
       'The code expires by: {1}<br />' +
       '*~*~*~*~*~*~*~*~*~*'
-    com_btactic_twofactorauth_admin.ZsMsg_twoFactorAuthCodeEmailBodyHtml =
+    com_btactic_activesyncauth_admin.ZsMsg_twoFactorAuthCodeEmailBodyHtml =
       '&lt;div style="font-family:sans-serif;"&gt;\n' +
       '&lt;hr&gt;\n' +
       'Your two-factor authentication code is: {0}&lt;br&gt;\n' +
       'The code expires by {1}\n' +
       '&lt;/div&gt;'
 
-    com_btactic_twofactorauth_admin.emailTemplateTip =
-      com_btactic_twofactorauth_admin.lbl_email_template_tip_default_values +
+    com_btactic_activesyncauth_admin.emailTemplateTip =
+      com_btactic_activesyncauth_admin.lbl_email_template_tip_default_values +
       '<ul>' +
-      '<li><b>' + com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailFrom + '</b>' + ':' +
-                  com_btactic_twofactorauth_admin.lbl_email_template_tip_from +
+      '<li><b>' + com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailFrom + '</b>' + ':' +
+                  com_btactic_activesyncauth_admin.lbl_email_template_tip_from +
       '</li>' +
-      '<li><b>' + com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailSubject + '</b>' + ':' +
-                  com_btactic_twofactorauth_admin.ZsMsg_twoFactorAuthCodeEmailSubject +
+      '<li><b>' + com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailSubject + '</b>' + ':' +
+                  com_btactic_activesyncauth_admin.ZsMsg_twoFactorAuthCodeEmailSubject +
       '</li>' +
-      '<li><b>' + com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailBodyText + '</b>' + ':' +
-                  com_btactic_twofactorauth_admin.ZsMsg_twoFactorAuthCodeEmailBodyText +
+      '<li><b>' + com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailBodyText + '</b>' + ':' +
+                  com_btactic_activesyncauth_admin.ZsMsg_twoFactorAuthCodeEmailBodyText +
       '</li>' +
-      '<li><b>' + com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailBodyHtml + '</b>' + ':' +
+      '<li><b>' + com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailBodyHtml + '</b>' + ':' +
                   '<pre>' +
-                      com_btactic_twofactorauth_admin.ZsMsg_twoFactorAuthCodeEmailBodyHtml +
+                      com_btactic_activesyncauth_admin.ZsMsg_twoFactorAuthCodeEmailBodyHtml +
                   '</pre>' +
       '</li>' +
       '</ul>'
@@ -277,39 +277,39 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_twofactorauth_admin"]){
 
     // Additional 2FA attributes - Accounts (Edit)
     if(ZaTabView.XFormModifiers["ZaAccountXFormView"]) {
-        com_btactic_twofactorauth_ext.AccountXFormModifier= function (xFormObject,entry) {
+        com_btactic_activesyncauth_ext.AccountXFormModifier= function (xFormObject,entry) {
 
-            var firstSwitchPosition = com_btactic_twofactorauth_ext.getFirstSwitchPosition(xFormObject);
+            var firstSwitchPosition = com_btactic_activesyncauth_ext.getFirstSwitchPosition(xFormObject);
             var twofactorauthTabIx = ++this.TAB_INDEX;
 
             var tabBar = xFormObject.items[1];
-            tabBar.choices.push({value:twofactorauthTabIx, label:com_btactic_twofactorauth_admin.zimbraTwoFactorAuthTab});
+            tabBar.choices.push({value:twofactorauthTabIx, label:com_btactic_activesyncauth_admin.zimbraTwoFactorAuthTab});
 
             var twofactorauthAccountTab={
                 type:_ZATABCASE_,
                 numCols:1,
                 caseKey:twofactorauthTabIx,
                 items: [
-                    {label: null, type: _OUTPUT_, value: com_btactic_twofactorauth_admin.zetaPromoWithImage, colSpan:"*", cssStyle:com_btactic_twofactorauth_admin.zetaPromoCss},
+                    {label: null, type: _OUTPUT_, value: com_btactic_activesyncauth_admin.zetaPromoWithImage, colSpan:"*", cssStyle:com_btactic_activesyncauth_admin.zetaPromoCss},
                     {type:_SPACER_, colSpan:"*"},
-                    {type: _DWT_ALERT_, containerCssStyle: "padding-bottom:0px", style: DwtAlert.INFO, iconVisible: true, content : com_btactic_twofactorauth_admin.zimbraTwoFactorAuthDisableWarning, colSpan : "*"},
+                    {type: _DWT_ALERT_, containerCssStyle: "padding-bottom:0px", style: DwtAlert.INFO, iconVisible: true, content : com_btactic_activesyncauth_admin.zimbraTwoFactorAuthDisableWarning, colSpan : "*"},
                     {type:_SPACER_, colSpan:"*"},
                     {type:_ZA_TOP_GROUPER_,
-                        label:com_btactic_twofactorauth_admin.zimbraTwoFactorAuthTab,
+                        label:com_btactic_activesyncauth_admin.zimbraTwoFactorAuthTab,
                         items:[
-                            {ref: "zimbraFeatureTwoFactorAuthAvailable", type: _SUPER_CHECKBOX_, checkBoxLabel: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthAvailable, msgName: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthAvailable, trueValue: "TRUE", falseValue: "FALSE", resetToSuperLabel: ZaMsg.NAD_ResetToCOS},
-                            {ref: "zimbraTwoFactorAuthEnabled", type: _SUPER_CHECKBOX_, checkBoxLabel: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthEnabled, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthEnabled, trueValue: "TRUE", falseValue: "FALSE", resetToSuperLabel: ZaMsg.NAD_ResetToCOS},
-                            {ref: "zimbraFeatureTwoFactorAuthRequired", type: _SUPER_CHECKBOX_, checkBoxLabel: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthRequired, msgName: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthRequired, trueValue: "TRUE", falseValue: "FALSE", resetToSuperLabel: ZaMsg.NAD_ResetToCOS},
-                            {ref: "zimbraFeatureAppSpecificPasswordsEnabled", type: _SUPER_CHECKBOX_, checkBoxLabel: com_btactic_twofactorauth_admin.zimbraFeatureAppSpecificPasswordsEnabled, msgName: com_btactic_twofactorauth_admin.zimbraFeatureAppSpecificPasswordsEnabled, trueValue: "TRUE", falseValue: "FALSE", resetToSuperLabel: ZaMsg.NAD_ResetToCOS},
-                            {ref: "zimbraTwoFactorAuthNumScratchCodes", type: _SUPER_TEXTFIELD_, txtBoxLabel: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthNumScratchCodes, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthNumScratchCodes, textFieldCssClass: "admin_xform_number_input", resetToSuperLabel: ZaMsg.NAD_ResetToCOS},
-                            {ref: "zimbraTwoFactorAuthMethodAllowed", type: _SUPER_MULTIPLE_CHECKBOX_, groupLabel: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthMethodAllowed, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthMethodAllowed, resetToSuperLabel: ZaMsg.NAD_ResetToCOS},
-                            {ref: "zimbraTwoFactorAuthMethodEnabled", type: _ZASELECT_MULTIPLE_CHECKBOX_, groupLabel: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthMethodEnabled, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthMethodEnabled, enableDisableChecks: [com_btactic_twofactorauth_ext.initDisableEnableMethods]},
+                            {ref: "zimbraFeatureTwoFactorAuthAvailable", type: _SUPER_CHECKBOX_, checkBoxLabel: com_btactic_activesyncauth_admin.zimbraFeatureTwoFactorAuthAvailable, msgName: com_btactic_activesyncauth_admin.zimbraFeatureTwoFactorAuthAvailable, trueValue: "TRUE", falseValue: "FALSE", resetToSuperLabel: ZaMsg.NAD_ResetToCOS},
+                            {ref: "zimbraTwoFactorAuthEnabled", type: _SUPER_CHECKBOX_, checkBoxLabel: com_btactic_activesyncauth_admin.zimbraTwoFactorAuthEnabled, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorAuthEnabled, trueValue: "TRUE", falseValue: "FALSE", resetToSuperLabel: ZaMsg.NAD_ResetToCOS},
+                            {ref: "zimbraFeatureTwoFactorAuthRequired", type: _SUPER_CHECKBOX_, checkBoxLabel: com_btactic_activesyncauth_admin.zimbraFeatureTwoFactorAuthRequired, msgName: com_btactic_activesyncauth_admin.zimbraFeatureTwoFactorAuthRequired, trueValue: "TRUE", falseValue: "FALSE", resetToSuperLabel: ZaMsg.NAD_ResetToCOS},
+                            {ref: "zimbraFeatureAppSpecificPasswordsEnabled", type: _SUPER_CHECKBOX_, checkBoxLabel: com_btactic_activesyncauth_admin.zimbraFeatureAppSpecificPasswordsEnabled, msgName: com_btactic_activesyncauth_admin.zimbraFeatureAppSpecificPasswordsEnabled, trueValue: "TRUE", falseValue: "FALSE", resetToSuperLabel: ZaMsg.NAD_ResetToCOS},
+                            {ref: "zimbraTwoFactorAuthNumScratchCodes", type: _SUPER_TEXTFIELD_, txtBoxLabel: com_btactic_activesyncauth_admin.zimbraTwoFactorAuthNumScratchCodes, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorAuthNumScratchCodes, textFieldCssClass: "admin_xform_number_input", resetToSuperLabel: ZaMsg.NAD_ResetToCOS},
+                            {ref: "zimbraTwoFactorAuthMethodAllowed", type: _SUPER_MULTIPLE_CHECKBOX_, groupLabel: com_btactic_activesyncauth_admin.zimbraTwoFactorAuthMethodAllowed, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorAuthMethodAllowed, resetToSuperLabel: ZaMsg.NAD_ResetToCOS},
+                            {ref: "zimbraTwoFactorAuthMethodEnabled", type: _ZASELECT_MULTIPLE_CHECKBOX_, groupLabel: com_btactic_activesyncauth_admin.zimbraTwoFactorAuthMethodEnabled, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorAuthMethodEnabled, enableDisableChecks: [com_btactic_activesyncauth_ext.initDisableEnableMethods]},
                             // Inspired on ZaMsg.Check_Settings button from ZaDomainXFormView.js
-                            {type:_SPACER_, colSpan:"1"}, {type: _DWT_BUTTON_, label: com_btactic_twofactorauth_admin.lbl_disable_app_2fa_method, autoPadding: false, onActivate: "com_btactic_twofactorauth_admin.disableMethod('app')", enableDisableChecks: [com_btactic_twofactorauth_ext.viewAppButton],enableDisableChangeEventSources: ["zimbraTwoFactorAuthMethodEnabled"]},
-                            {type:_SPACER_, colSpan:"1"}, {type: _DWT_BUTTON_, label: com_btactic_twofactorauth_admin.lbl_disable_email_2fa_method, autoPadding: false, onActivate: "com_btactic_twofactorauth_admin.disableMethod('email')", enableDisableChecks: [com_btactic_twofactorauth_ext.viewEmailButton],enableDisableChangeEventSources: ["zimbraTwoFactorAuthMethodEnabled"]},
+                            {type:_SPACER_, colSpan:"1"}, {type: _DWT_BUTTON_, label: com_btactic_activesyncauth_admin.lbl_disable_app_2fa_method, autoPadding: false, onActivate: "com_btactic_activesyncauth_admin.disableMethod('app')", enableDisableChecks: [com_btactic_activesyncauth_ext.viewAppButton],enableDisableChangeEventSources: ["zimbraTwoFactorAuthMethodEnabled"]},
+                            {type:_SPACER_, colSpan:"1"}, {type: _DWT_BUTTON_, label: com_btactic_activesyncauth_admin.lbl_disable_email_2fa_method, autoPadding: false, onActivate: "com_btactic_activesyncauth_admin.disableMethod('email')", enableDisableChecks: [com_btactic_activesyncauth_ext.viewEmailButton],enableDisableChangeEventSources: ["zimbraTwoFactorAuthMethodEnabled"]},
                             {type:_SPACER_, colSpan:"*"},
-                            {ref: "zimbraPrefPrimaryTwoFactorAuthMethod", type: _OSELECT1_, label: com_btactic_twofactorauth_admin.zimbraPrefPrimaryTwoFactorAuthMethod, msgName: com_btactic_twofactorauth_admin.zimbraPrefPrimaryTwoFactorAuthMethod},
-                            {ref: "zimbraTwoFactorCodeLifetimeForEmail", type: _SUPER_LIFETIME_, txtBoxLabel: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeLifetimeForEmail, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeLifetimeForEmail}
+                            {ref: "zimbraPrefPrimaryTwoFactorAuthMethod", type: _OSELECT1_, label: com_btactic_activesyncauth_admin.zimbraPrefPrimaryTwoFactorAuthMethod, msgName: com_btactic_activesyncauth_admin.zimbraPrefPrimaryTwoFactorAuthMethod},
+                            {ref: "zimbraTwoFactorCodeLifetimeForEmail", type: _SUPER_LIFETIME_, txtBoxLabel: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeLifetimeForEmail, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeLifetimeForEmail}
                         ]
                     }
                 ]
@@ -317,7 +317,7 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_twofactorauth_admin"]){
 
             xFormObject.items[firstSwitchPosition].items.push(twofactorauthAccountTab);
         }
-        ZaTabView.XFormModifiers["ZaAccountXFormView"].push(com_btactic_twofactorauth_ext.AccountXFormModifier);
+        ZaTabView.XFormModifiers["ZaAccountXFormView"].push(com_btactic_activesyncauth_ext.AccountXFormModifier);
     }
 
     // Additional 2FA attributes - ClassOfService (Definition)
@@ -332,30 +332,30 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_twofactorauth_admin"]){
 
     // Additional 2FA attributes - ClassOfService (Edit)
     if(ZaTabView.XFormModifiers["ZaCosXFormView"]) {
-        com_btactic_twofactorauth_ext.myCosXFormModifier= function (xFormObject,entry) {
+        com_btactic_activesyncauth_ext.myCosXFormModifier= function (xFormObject,entry) {
 
-            var firstSwitchPosition = com_btactic_twofactorauth_ext.getFirstSwitchPosition(xFormObject);
+            var firstSwitchPosition = com_btactic_activesyncauth_ext.getFirstSwitchPosition(xFormObject);
             var twofactorauthTabIx = ++this.TAB_INDEX;
 
             var tabBar = xFormObject.items[1];
-            tabBar.choices.push({value:twofactorauthTabIx, label:com_btactic_twofactorauth_admin.zimbraTwoFactorAuthTab});
+            tabBar.choices.push({value:twofactorauthTabIx, label:com_btactic_activesyncauth_admin.zimbraTwoFactorAuthTab});
 
             var twofactorauthAccountTab={
                 type:_ZATABCASE_,
                 numCols:1,
                 caseKey:twofactorauthTabIx,
                 items: [
-                    {label: null, type: _OUTPUT_, value: com_btactic_twofactorauth_admin.zetaPromoWithImage, colSpan:"*", cssStyle:com_btactic_twofactorauth_admin.zetaPromoCss},
+                    {label: null, type: _OUTPUT_, value: com_btactic_activesyncauth_admin.zetaPromoWithImage, colSpan:"*", cssStyle:com_btactic_activesyncauth_admin.zetaPromoCss},
                     {type:_SPACER_, colSpan:"*"},
                     {type:_ZA_TOP_GROUPER_,
-                        label:com_btactic_twofactorauth_admin.zimbraTwoFactorAuthTab,
+                        label:com_btactic_activesyncauth_admin.zimbraTwoFactorAuthTab,
                         items:[
-                            {ref: "zimbraFeatureTwoFactorAuthAvailable", type: _CHECKBOX_, label: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthAvailable, msgName: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthAvailable, trueValue: "TRUE", falseValue: "FALSE", labelLocation: _LEFT_},
-                            {ref: "zimbraFeatureTwoFactorAuthRequired", type: _CHECKBOX_, label: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthRequired, msgName: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthRequired, trueValue: "TRUE", falseValue: "FALSE", labelLocation: _LEFT_},
-                            {ref: "zimbraFeatureAppSpecificPasswordsEnabled", type: _CHECKBOX_, label: com_btactic_twofactorauth_admin.zimbraFeatureAppSpecificPasswordsEnabled, msgName: com_btactic_twofactorauth_admin.zimbraFeatureAppSpecificPasswordsEnabled, trueValue: "TRUE", falseValue: "FALSE", labelLocation: _LEFT_},
-                            {ref: "zimbraTwoFactorAuthNumScratchCodes", type: _TEXTFIELD_, label: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthNumScratchCodes, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthNumScratchCodes, textFieldCssClass: "admin_xform_number_input", labelLocation: _LEFT_},
-                            {ref: "zimbraTwoFactorAuthMethodAllowed", type: _ZASELECT_MULTIPLE_CHECKBOX_, groupLabel: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthMethodAllowed, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthMethodAllowed, labelLocation: _LEFT_},
-                            {ref: "zimbraTwoFactorCodeLifetimeForEmail", type: _LIFETIME_, label: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeLifetimeForEmail, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeLifetimeForEmail, labelLocation: _LEFT_}
+                            {ref: "zimbraFeatureTwoFactorAuthAvailable", type: _CHECKBOX_, label: com_btactic_activesyncauth_admin.zimbraFeatureTwoFactorAuthAvailable, msgName: com_btactic_activesyncauth_admin.zimbraFeatureTwoFactorAuthAvailable, trueValue: "TRUE", falseValue: "FALSE", labelLocation: _LEFT_},
+                            {ref: "zimbraFeatureTwoFactorAuthRequired", type: _CHECKBOX_, label: com_btactic_activesyncauth_admin.zimbraFeatureTwoFactorAuthRequired, msgName: com_btactic_activesyncauth_admin.zimbraFeatureTwoFactorAuthRequired, trueValue: "TRUE", falseValue: "FALSE", labelLocation: _LEFT_},
+                            {ref: "zimbraFeatureAppSpecificPasswordsEnabled", type: _CHECKBOX_, label: com_btactic_activesyncauth_admin.zimbraFeatureAppSpecificPasswordsEnabled, msgName: com_btactic_activesyncauth_admin.zimbraFeatureAppSpecificPasswordsEnabled, trueValue: "TRUE", falseValue: "FALSE", labelLocation: _LEFT_},
+                            {ref: "zimbraTwoFactorAuthNumScratchCodes", type: _TEXTFIELD_, label: com_btactic_activesyncauth_admin.zimbraTwoFactorAuthNumScratchCodes, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorAuthNumScratchCodes, textFieldCssClass: "admin_xform_number_input", labelLocation: _LEFT_},
+                            {ref: "zimbraTwoFactorAuthMethodAllowed", type: _ZASELECT_MULTIPLE_CHECKBOX_, groupLabel: com_btactic_activesyncauth_admin.zimbraTwoFactorAuthMethodAllowed, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorAuthMethodAllowed, labelLocation: _LEFT_},
+                            {ref: "zimbraTwoFactorCodeLifetimeForEmail", type: _LIFETIME_, label: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeLifetimeForEmail, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeLifetimeForEmail, labelLocation: _LEFT_}
                         ]
                     }
                 ]
@@ -363,7 +363,7 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_twofactorauth_admin"]){
 
             xFormObject.items[firstSwitchPosition].items.push(twofactorauthAccountTab);
         }
-        ZaTabView.XFormModifiers["ZaCosXFormView"].push(com_btactic_twofactorauth_ext.myCosXFormModifier);
+        ZaTabView.XFormModifiers["ZaCosXFormView"].push(com_btactic_activesyncauth_ext.myCosXFormModifier);
     }
 
     // Additional 2FA attributes - Domain (Definition)
@@ -378,32 +378,32 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_twofactorauth_admin"]){
 
     // Additional 2FA attributes - Domain (Edit)
     if(ZaTabView.XFormModifiers["ZaDomainXFormView"]) {
-        com_btactic_twofactorauth_ext.myDomainXFormModifier= function (xFormObject,entry) {
+        com_btactic_activesyncauth_ext.myDomainXFormModifier= function (xFormObject,entry) {
 
-            var firstSwitchPosition = com_btactic_twofactorauth_ext.getFirstSwitchPosition(xFormObject);
+            var firstSwitchPosition = com_btactic_activesyncauth_ext.getFirstSwitchPosition(xFormObject);
             var twofactorauthTabIx = ++this.TAB_INDEX;
 
             var tabBar = xFormObject.items[1];
-            tabBar.choices.push({value:twofactorauthTabIx, label:com_btactic_twofactorauth_admin.zimbraTwoFactorAuthTab});
+            tabBar.choices.push({value:twofactorauthTabIx, label:com_btactic_activesyncauth_admin.zimbraTwoFactorAuthTab});
 
             var twofactorauthAccountTab={
                 type:_ZATABCASE_,
                 numCols:1,
                 caseKey:twofactorauthTabIx,
                 items: [
-                    {label: null, type: _OUTPUT_, value: com_btactic_twofactorauth_admin.zetaPromoWithImage, colSpan:"*", cssStyle:com_btactic_twofactorauth_admin.zetaPromoCss},
+                    {label: null, type: _OUTPUT_, value: com_btactic_activesyncauth_admin.zetaPromoWithImage, colSpan:"*", cssStyle:com_btactic_activesyncauth_admin.zetaPromoCss},
                     {type:_SPACER_, colSpan:"*"},
-                    {type: _DWT_ALERT_, containerCssStyle: "padding-bottom:0px", style: DwtAlert.INFO, iconVisible: true, content : com_btactic_twofactorauth_admin.emailTemplateTip, colSpan : "*"},
+                    {type: _DWT_ALERT_, containerCssStyle: "padding-bottom:0px", style: DwtAlert.INFO, iconVisible: true, content : com_btactic_activesyncauth_admin.emailTemplateTip, colSpan : "*"},
                     {type:_SPACER_, colSpan:"*"},
                     {type:_ZA_TOP_GROUPER_,
-                        label:com_btactic_twofactorauth_admin.zimbraTwoFactorAuthTab,
+                        label:com_btactic_activesyncauth_admin.zimbraTwoFactorAuthTab,
                         items:[
-                            {ref: "zimbraTwoFactorAuthMethodAllowed", type: _ZASELECT_MULTIPLE_CHECKBOX_, groupLabel: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthMethodAllowed, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthMethodAllowed, labelLocation: _LEFT_},
-                            {ref: "zimbraTwoFactorCodeLifetimeForEmail", type: _LIFETIME_, label: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeLifetimeForEmail, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeLifetimeForEmail, labelLocation: _LEFT_},
-                            {ref: "zimbraTwoFactorCodeEmailFrom", type: _TEXTFIELD_, label: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailFrom, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailFrom, labelLocation: _LEFT_, enableDisableChecks: [com_btactic_twofactorauth_ext.viewEmailFrom]},
-                            {ref: "zimbraTwoFactorCodeEmailSubject", type: _TEXTFIELD_, label: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailSubject, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailSubject, labelLocation: _LEFT_},
-                            {ref: "zimbraTwoFactorCodeEmailBodyText", type: _TEXTAREA_, label: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailBodyText, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailBodyText, labelLocation: _LEFT_},
-                            {ref: "zimbraTwoFactorCodeEmailBodyHtml", type: _TEXTAREA_, label: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailBodyHtml, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailBodyHtml, labelLocation: _LEFT_}
+                            {ref: "zimbraTwoFactorAuthMethodAllowed", type: _ZASELECT_MULTIPLE_CHECKBOX_, groupLabel: com_btactic_activesyncauth_admin.zimbraTwoFactorAuthMethodAllowed, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorAuthMethodAllowed, labelLocation: _LEFT_},
+                            {ref: "zimbraTwoFactorCodeLifetimeForEmail", type: _LIFETIME_, label: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeLifetimeForEmail, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeLifetimeForEmail, labelLocation: _LEFT_},
+                            {ref: "zimbraTwoFactorCodeEmailFrom", type: _TEXTFIELD_, label: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailFrom, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailFrom, labelLocation: _LEFT_, enableDisableChecks: [com_btactic_activesyncauth_ext.viewEmailFrom]},
+                            {ref: "zimbraTwoFactorCodeEmailSubject", type: _TEXTFIELD_, label: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailSubject, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailSubject, labelLocation: _LEFT_},
+                            {ref: "zimbraTwoFactorCodeEmailBodyText", type: _TEXTAREA_, label: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailBodyText, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailBodyText, labelLocation: _LEFT_},
+                            {ref: "zimbraTwoFactorCodeEmailBodyHtml", type: _TEXTAREA_, label: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailBodyHtml, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailBodyHtml, labelLocation: _LEFT_}
                         ]
                     }
                 ]
@@ -411,7 +411,7 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_twofactorauth_admin"]){
 
             xFormObject.items[firstSwitchPosition].items.push(twofactorauthAccountTab);
         }
-        ZaTabView.XFormModifiers["ZaDomainXFormView"].push(com_btactic_twofactorauth_ext.myDomainXFormModifier);
+        ZaTabView.XFormModifiers["ZaDomainXFormView"].push(com_btactic_activesyncauth_ext.myDomainXFormModifier);
     }
 
     // Additional 2FA attributes - GlobalConfig (Definition)
@@ -425,31 +425,31 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_twofactorauth_admin"]){
 
     // Additional 2FA attributes - GlobalConfig (Edit)
     if(ZaTabView.XFormModifiers["GlobalConfigXFormView"]) {
-        com_btactic_twofactorauth_ext.myGlobalConfigXFormModifier= function (xFormObject,entry) {
+        com_btactic_activesyncauth_ext.myGlobalConfigXFormModifier= function (xFormObject,entry) {
 
-            var firstSwitchPosition = com_btactic_twofactorauth_ext.getFirstSwitchPosition(xFormObject);
+            var firstSwitchPosition = com_btactic_activesyncauth_ext.getFirstSwitchPosition(xFormObject);
             var twofactorauthTabIx = ++this.TAB_INDEX;
 
             var tabBar = xFormObject.items[1];
-            tabBar.choices.push({value:twofactorauthTabIx, label:com_btactic_twofactorauth_admin.zimbraTwoFactorAuthTab});
+            tabBar.choices.push({value:twofactorauthTabIx, label:com_btactic_activesyncauth_admin.zimbraTwoFactorAuthTab});
 
             var twofactorauthAccountTab={
                 type:_ZATABCASE_,
                 numCols:1,
                 caseKey:twofactorauthTabIx,
                 items: [
-                    {label: null, type: _OUTPUT_, value: com_btactic_twofactorauth_admin.zetaPromoWithImage, colSpan:"*", cssStyle:com_btactic_twofactorauth_admin.zetaPromoCss},
+                    {label: null, type: _OUTPUT_, value: com_btactic_activesyncauth_admin.zetaPromoWithImage, colSpan:"*", cssStyle:com_btactic_activesyncauth_admin.zetaPromoCss},
                     {type:_SPACER_, colSpan:"*"},
-                    {type: _DWT_ALERT_, containerCssStyle: "padding-bottom:0px", style: DwtAlert.INFO, iconVisible: true, content : com_btactic_twofactorauth_admin.emailTemplateTip, colSpan : "*"},
+                    {type: _DWT_ALERT_, containerCssStyle: "padding-bottom:0px", style: DwtAlert.INFO, iconVisible: true, content : com_btactic_activesyncauth_admin.emailTemplateTip, colSpan : "*"},
                     {type:_SPACER_, colSpan:"*"},
                     {type:_ZA_TOP_GROUPER_,
-                        label:com_btactic_twofactorauth_admin.zimbraTwoFactorAuthTab,
+                        label:com_btactic_activesyncauth_admin.zimbraTwoFactorAuthTab,
                         items:[
-                            {ref: "zimbraTwoFactorCodeLifetimeForEmail", type: _LIFETIME_, label: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeLifetimeForEmail, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeLifetimeForEmail, labelLocation: _LEFT_},
-                            {ref: "zimbraTwoFactorCodeEmailFrom", type: _TEXTFIELD_, label: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailFrom, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailFrom, labelLocation: _LEFT_, enableDisableChecks: [com_btactic_twofactorauth_ext.viewEmailFrom]},
-                            {ref: "zimbraTwoFactorCodeEmailSubject", type: _TEXTFIELD_, label: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailSubject, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailSubject, labelLocation: _LEFT_},
-                            {ref: "zimbraTwoFactorCodeEmailBodyText", type: _TEXTAREA_, label: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailBodyText, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailBodyText, labelLocation: _LEFT_},
-                            {ref: "zimbraTwoFactorCodeEmailBodyHtml", type: _TEXTAREA_, label: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailBodyHtml, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailBodyHtml, labelLocation: _LEFT_}
+                            {ref: "zimbraTwoFactorCodeLifetimeForEmail", type: _LIFETIME_, label: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeLifetimeForEmail, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeLifetimeForEmail, labelLocation: _LEFT_},
+                            {ref: "zimbraTwoFactorCodeEmailFrom", type: _TEXTFIELD_, label: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailFrom, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailFrom, labelLocation: _LEFT_, enableDisableChecks: [com_btactic_activesyncauth_ext.viewEmailFrom]},
+                            {ref: "zimbraTwoFactorCodeEmailSubject", type: _TEXTFIELD_, label: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailSubject, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailSubject, labelLocation: _LEFT_},
+                            {ref: "zimbraTwoFactorCodeEmailBodyText", type: _TEXTAREA_, label: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailBodyText, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailBodyText, labelLocation: _LEFT_},
+                            {ref: "zimbraTwoFactorCodeEmailBodyHtml", type: _TEXTAREA_, label: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailBodyHtml, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailBodyHtml, labelLocation: _LEFT_}
                         ]
                     }
                 ]
@@ -457,134 +457,134 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_twofactorauth_admin"]){
 
             xFormObject.items[firstSwitchPosition].items.push(twofactorauthAccountTab);
         }
-        ZaTabView.XFormModifiers["GlobalConfigXFormView"].push(com_btactic_twofactorauth_ext.myGlobalConfigXFormModifier);
+        ZaTabView.XFormModifiers["GlobalConfigXFormView"].push(com_btactic_activesyncauth_ext.myGlobalConfigXFormModifier);
     }
 
     // Additional 2FA attributes - Accounts (New)
-    com_btactic_twofactorauth_ext.ACC_WIZ_GROUP = {
+    com_btactic_activesyncauth_ext.ACC_WIZ_GROUP = {
         type:_ZAWIZGROUP_,
         items:[
-            {label: null, type: _OUTPUT_, value: com_btactic_twofactorauth_admin.zetaPromoWithImage, colSpan:"*", cssStyle:com_btactic_twofactorauth_admin.zetaPromoCss},
+            {label: null, type: _OUTPUT_, value: com_btactic_activesyncauth_admin.zetaPromoWithImage, colSpan:"*", cssStyle:com_btactic_activesyncauth_admin.zetaPromoCss},
             {type:_SPACER_, colSpan:"*"},
             {
               type: _ZAWIZ_TOP_GROUPER_,
-              label:com_btactic_twofactorauth_admin.zimbraTwoFactorAuthTab,
+              label:com_btactic_activesyncauth_admin.zimbraTwoFactorAuthTab,
               colSizes : [ "200px", "400px" ],
               numCols : 2,
               items : [
-                {ref: "zimbraFeatureTwoFactorAuthAvailable", type: _SUPER_WIZ_CHECKBOX_, checkBoxLabel: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthAvailable, msgName: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthAvailable, trueValue: "TRUE", falseValue: "FALSE", resetToSuperLabel: ZaMsg.NAD_ResetToCOS},
-                {ref: "zimbraFeatureTwoFactorAuthRequired", type: _SUPER_WIZ_CHECKBOX_, checkBoxLabel: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthRequired, msgName: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthRequired, trueValue: "TRUE", falseValue: "FALSE", resetToSuperLabel: ZaMsg.NAD_ResetToCOS},
-                {ref: "zimbraFeatureAppSpecificPasswordsEnabled", type: _SUPER_WIZ_CHECKBOX_, checkBoxLabel: com_btactic_twofactorauth_admin.zimbraFeatureAppSpecificPasswordsEnabled, msgName: com_btactic_twofactorauth_admin.zimbraFeatureAppSpecificPasswordsEnabled, trueValue: "TRUE", falseValue: "FALSE", resetToSuperLabel: ZaMsg.NAD_ResetToCOS},
-                {ref: "zimbraTwoFactorAuthNumScratchCodes", type: _SUPERWIZ_TEXTFIELD_, txtBoxLabel: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthNumScratchCodes, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthNumScratchCodes, textFieldCssClass: "admin_xform_number_input", resetToSuperLabel: ZaMsg.NAD_ResetToCOS},
-                {ref: "zimbraTwoFactorAuthMethodAllowed", type: _SUPER_WIZ_MULTIPLE_CHECKBOX_, groupLabel: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthMethodAllowed, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthMethodAllowed, resetToSuperLabel: ZaMsg.NAD_ResetToCOS},
-                {ref: "zimbraTwoFactorCodeLifetimeForEmail", type: _SUPERWIZ_LIFETIME_, txtBoxLabel: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeLifetimeForEmail, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeLifetimeForEmail, resetToSuperLabel: ZaMsg.NAD_ResetToCOS}
+                {ref: "zimbraFeatureTwoFactorAuthAvailable", type: _SUPER_WIZ_CHECKBOX_, checkBoxLabel: com_btactic_activesyncauth_admin.zimbraFeatureTwoFactorAuthAvailable, msgName: com_btactic_activesyncauth_admin.zimbraFeatureTwoFactorAuthAvailable, trueValue: "TRUE", falseValue: "FALSE", resetToSuperLabel: ZaMsg.NAD_ResetToCOS},
+                {ref: "zimbraFeatureTwoFactorAuthRequired", type: _SUPER_WIZ_CHECKBOX_, checkBoxLabel: com_btactic_activesyncauth_admin.zimbraFeatureTwoFactorAuthRequired, msgName: com_btactic_activesyncauth_admin.zimbraFeatureTwoFactorAuthRequired, trueValue: "TRUE", falseValue: "FALSE", resetToSuperLabel: ZaMsg.NAD_ResetToCOS},
+                {ref: "zimbraFeatureAppSpecificPasswordsEnabled", type: _SUPER_WIZ_CHECKBOX_, checkBoxLabel: com_btactic_activesyncauth_admin.zimbraFeatureAppSpecificPasswordsEnabled, msgName: com_btactic_activesyncauth_admin.zimbraFeatureAppSpecificPasswordsEnabled, trueValue: "TRUE", falseValue: "FALSE", resetToSuperLabel: ZaMsg.NAD_ResetToCOS},
+                {ref: "zimbraTwoFactorAuthNumScratchCodes", type: _SUPERWIZ_TEXTFIELD_, txtBoxLabel: com_btactic_activesyncauth_admin.zimbraTwoFactorAuthNumScratchCodes, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorAuthNumScratchCodes, textFieldCssClass: "admin_xform_number_input", resetToSuperLabel: ZaMsg.NAD_ResetToCOS},
+                {ref: "zimbraTwoFactorAuthMethodAllowed", type: _SUPER_WIZ_MULTIPLE_CHECKBOX_, groupLabel: com_btactic_activesyncauth_admin.zimbraTwoFactorAuthMethodAllowed, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorAuthMethodAllowed, resetToSuperLabel: ZaMsg.NAD_ResetToCOS},
+                {ref: "zimbraTwoFactorCodeLifetimeForEmail", type: _SUPERWIZ_LIFETIME_, txtBoxLabel: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeLifetimeForEmail, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeLifetimeForEmail, resetToSuperLabel: ZaMsg.NAD_ResetToCOS}
               ]
             }
         ]
     };
 
     if(ZaXDialog.XFormModifiers["ZaNewAccountXWizard"]) {
-        com_btactic_twofactorauth_ext.AccountXWizModifier= function (xFormObject, entry) {
+        com_btactic_activesyncauth_ext.AccountXWizModifier= function (xFormObject, entry) {
 
-            var firstSwitchPosition = com_btactic_twofactorauth_ext.getFirstSwitchPosition(xFormObject);
+            var firstSwitchPosition = com_btactic_activesyncauth_ext.getFirstSwitchPosition(xFormObject);
             var twofactorauthTabIx = ++this.TAB_INDEX;
 
-            this.stepChoices.push({value:twofactorauthTabIx, label:com_btactic_twofactorauth_admin.zimbraTwoFactorAuthTab});
+            this.stepChoices.push({value:twofactorauthTabIx, label:com_btactic_activesyncauth_admin.zimbraTwoFactorAuthTab});
             this._lastStep = this.stepChoices.length;
 
             var twofactorauthStep={type:_CASE_, numCols:1, caseKey:twofactorauthTabIx, tabGroupKey:twofactorauthTabIx,
-                items: [com_btactic_twofactorauth_ext.ACC_WIZ_GROUP]
+                items: [com_btactic_activesyncauth_ext.ACC_WIZ_GROUP]
             };
 
             xFormObject.items[firstSwitchPosition].items.push(twofactorauthStep);
 
         }
-        ZaXDialog.XFormModifiers["ZaNewAccountXWizard"].push(com_btactic_twofactorauth_ext.AccountXWizModifier);
+        ZaXDialog.XFormModifiers["ZaNewAccountXWizard"].push(com_btactic_activesyncauth_ext.AccountXWizModifier);
     }
 
     // Additional 2FA attributes - ClassOfService (New)
-    com_btactic_twofactorauth_ext.COS_WIZ_GROUP = {
+    com_btactic_activesyncauth_ext.COS_WIZ_GROUP = {
         type:_ZAWIZGROUP_,
         items:[
-            {label: null, type: _OUTPUT_, value: com_btactic_twofactorauth_admin.zetaPromoWithImage, colSpan:"*", cssStyle:com_btactic_twofactorauth_admin.zetaPromoCss},
+            {label: null, type: _OUTPUT_, value: com_btactic_activesyncauth_admin.zetaPromoWithImage, colSpan:"*", cssStyle:com_btactic_activesyncauth_admin.zetaPromoCss},
             {type:_SPACER_, colSpan:"*"},
             {
               type: _ZAWIZ_TOP_GROUPER_,
-              label:com_btactic_twofactorauth_admin.zimbraTwoFactorAuthTab,
+              label:com_btactic_activesyncauth_admin.zimbraTwoFactorAuthTab,
               colSizes : [ "200px", "400px" ],
               numCols : 2,
               items : [
-                {ref: "zimbraFeatureTwoFactorAuthAvailable", type: _WIZ_CHECKBOX_, label: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthAvailable, msgName: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthAvailable, trueValue: "TRUE", falseValue: "FALSE"},
-                {ref: "zimbraFeatureTwoFactorAuthRequired", type: _WIZ_CHECKBOX_, label: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthRequired, msgName: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthRequired, trueValue: "TRUE", falseValue: "FALSE"},
-                {ref: "zimbraFeatureAppSpecificPasswordsEnabled", type: _WIZ_CHECKBOX_, label: com_btactic_twofactorauth_admin.zimbraFeatureAppSpecificPasswordsEnabled, msgName: com_btactic_twofactorauth_admin.zimbraFeatureAppSpecificPasswordsEnabled, trueValue: "TRUE", falseValue: "FALSE"},
-                {ref: "zimbraTwoFactorAuthNumScratchCodes", type: _TEXTFIELD_, label: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthNumScratchCodes, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthNumScratchCodes, textFieldCssClass: "admin_xform_number_input"},
-                {ref: "zimbraTwoFactorAuthMethodAllowed", type: _ZASELECT_WIZ_MULTIPLE_CHECKBOX_, groupLabel: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthMethodAllowed, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthMethodAllowed},
-                {ref: "zimbraTwoFactorCodeLifetimeForEmail", type: _LIFETIME_, label: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeLifetimeForEmail, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeLifetimeForEmail}
+                {ref: "zimbraFeatureTwoFactorAuthAvailable", type: _WIZ_CHECKBOX_, label: com_btactic_activesyncauth_admin.zimbraFeatureTwoFactorAuthAvailable, msgName: com_btactic_activesyncauth_admin.zimbraFeatureTwoFactorAuthAvailable, trueValue: "TRUE", falseValue: "FALSE"},
+                {ref: "zimbraFeatureTwoFactorAuthRequired", type: _WIZ_CHECKBOX_, label: com_btactic_activesyncauth_admin.zimbraFeatureTwoFactorAuthRequired, msgName: com_btactic_activesyncauth_admin.zimbraFeatureTwoFactorAuthRequired, trueValue: "TRUE", falseValue: "FALSE"},
+                {ref: "zimbraFeatureAppSpecificPasswordsEnabled", type: _WIZ_CHECKBOX_, label: com_btactic_activesyncauth_admin.zimbraFeatureAppSpecificPasswordsEnabled, msgName: com_btactic_activesyncauth_admin.zimbraFeatureAppSpecificPasswordsEnabled, trueValue: "TRUE", falseValue: "FALSE"},
+                {ref: "zimbraTwoFactorAuthNumScratchCodes", type: _TEXTFIELD_, label: com_btactic_activesyncauth_admin.zimbraTwoFactorAuthNumScratchCodes, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorAuthNumScratchCodes, textFieldCssClass: "admin_xform_number_input"},
+                {ref: "zimbraTwoFactorAuthMethodAllowed", type: _ZASELECT_WIZ_MULTIPLE_CHECKBOX_, groupLabel: com_btactic_activesyncauth_admin.zimbraTwoFactorAuthMethodAllowed, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorAuthMethodAllowed},
+                {ref: "zimbraTwoFactorCodeLifetimeForEmail", type: _LIFETIME_, label: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeLifetimeForEmail, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeLifetimeForEmail}
               ]
             }
         ]
     };
 
     if(ZaXDialog.XFormModifiers["ZaNewCosXWizard"]) {
-        com_btactic_twofactorauth_ext.CosXWizModifier= function (xFormObject, entry) {
+        com_btactic_activesyncauth_ext.CosXWizModifier= function (xFormObject, entry) {
 
-            var firstSwitchPosition = com_btactic_twofactorauth_ext.getFirstSwitchPosition(xFormObject);
+            var firstSwitchPosition = com_btactic_activesyncauth_ext.getFirstSwitchPosition(xFormObject);
             var twofactorauthTabIx = ++this.TAB_INDEX;
 
-            this.stepChoices.push({value:twofactorauthTabIx, label:com_btactic_twofactorauth_admin.zimbraTwoFactorAuthTab});
+            this.stepChoices.push({value:twofactorauthTabIx, label:com_btactic_activesyncauth_admin.zimbraTwoFactorAuthTab});
             this._lastStep = this.stepChoices.length;
 
             var twofactorauthStep={type:_CASE_, numCols:1, caseKey:twofactorauthTabIx, tabGroupKey:twofactorauthTabIx,
-                items: [com_btactic_twofactorauth_ext.COS_WIZ_GROUP]
+                items: [com_btactic_activesyncauth_ext.COS_WIZ_GROUP]
             };
 
             xFormObject.items[firstSwitchPosition].items.push(twofactorauthStep);
 
         }
-        ZaXDialog.XFormModifiers["ZaNewCosXWizard"].push(com_btactic_twofactorauth_ext.CosXWizModifier);
+        ZaXDialog.XFormModifiers["ZaNewCosXWizard"].push(com_btactic_activesyncauth_ext.CosXWizModifier);
     }
 
     // Additional 2FA attributes - Domain (New)
-    com_btactic_twofactorauth_ext.DOMAIN_WIZ_GROUP = {
+    com_btactic_activesyncauth_ext.DOMAIN_WIZ_GROUP = {
         type:_ZAWIZGROUP_,
         items:[
-            {label: null, type: _OUTPUT_, value: com_btactic_twofactorauth_admin.zetaPromoWithImage, colSpan:"*", cssStyle:com_btactic_twofactorauth_admin.zetaPromoCss},
+            {label: null, type: _OUTPUT_, value: com_btactic_activesyncauth_admin.zetaPromoWithImage, colSpan:"*", cssStyle:com_btactic_activesyncauth_admin.zetaPromoCss},
             {type:_SPACER_, colSpan:"*"},
-            {type: _DWT_ALERT_, containerCssStyle: "padding-bottom:0px", style: DwtAlert.INFO, iconVisible: true, content : com_btactic_twofactorauth_admin.emailTemplateTip, colSpan : "*"},
+            {type: _DWT_ALERT_, containerCssStyle: "padding-bottom:0px", style: DwtAlert.INFO, iconVisible: true, content : com_btactic_activesyncauth_admin.emailTemplateTip, colSpan : "*"},
             {type:_SPACER_, colSpan:"*"},
             {
               type: _ZAWIZ_TOP_GROUPER_,
-              label:com_btactic_twofactorauth_admin.zimbraTwoFactorAuthTab,
+              label:com_btactic_activesyncauth_admin.zimbraTwoFactorAuthTab,
               colSizes : [ "200px", "400px" ],
               numCols : 2,
               items : [
-                {ref: "zimbraTwoFactorAuthMethodAllowed", type: _ZASELECT_WIZ_MULTIPLE_CHECKBOX_, groupLabel: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthMethodAllowed, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthMethodAllowed, labelLocation: _LEFT_},
-                {ref: "zimbraTwoFactorCodeLifetimeForEmail", type: _LIFETIME_, label: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeLifetimeForEmail, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeLifetimeForEmail},
-                {ref: "zimbraTwoFactorCodeEmailFrom", type: _TEXTFIELD_, label: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailFrom, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailFrom, enableDisableChecks: [com_btactic_twofactorauth_ext.viewEmailFrom]},
-                {ref: "zimbraTwoFactorCodeEmailSubject", type: _TEXTFIELD_, label: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailSubject, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailSubject},
-                {ref: "zimbraTwoFactorCodeEmailBodyText", type: _TEXTAREA_, label: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailBodyText, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailBodyText},
-                {ref: "zimbraTwoFactorCodeEmailBodyHtml", type: _TEXTAREA_, label: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailBodyHtml, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorCodeEmailBodyHtml}
+                {ref: "zimbraTwoFactorAuthMethodAllowed", type: _ZASELECT_WIZ_MULTIPLE_CHECKBOX_, groupLabel: com_btactic_activesyncauth_admin.zimbraTwoFactorAuthMethodAllowed, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorAuthMethodAllowed, labelLocation: _LEFT_},
+                {ref: "zimbraTwoFactorCodeLifetimeForEmail", type: _LIFETIME_, label: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeLifetimeForEmail, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeLifetimeForEmail},
+                {ref: "zimbraTwoFactorCodeEmailFrom", type: _TEXTFIELD_, label: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailFrom, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailFrom, enableDisableChecks: [com_btactic_activesyncauth_ext.viewEmailFrom]},
+                {ref: "zimbraTwoFactorCodeEmailSubject", type: _TEXTFIELD_, label: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailSubject, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailSubject},
+                {ref: "zimbraTwoFactorCodeEmailBodyText", type: _TEXTAREA_, label: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailBodyText, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailBodyText},
+                {ref: "zimbraTwoFactorCodeEmailBodyHtml", type: _TEXTAREA_, label: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailBodyHtml, msgName: com_btactic_activesyncauth_admin.zimbraTwoFactorCodeEmailBodyHtml}
               ]
             }
         ]
     };
 
     if(ZaXDialog.XFormModifiers["ZaNewDomainXWizard"]) {
-        com_btactic_twofactorauth_ext.DomainXWizModifier= function (xFormObject, entry) {
+        com_btactic_activesyncauth_ext.DomainXWizModifier= function (xFormObject, entry) {
 
-            var firstSwitchPosition = com_btactic_twofactorauth_ext.getFirstSwitchPosition(xFormObject);
+            var firstSwitchPosition = com_btactic_activesyncauth_ext.getFirstSwitchPosition(xFormObject);
             var twofactorauthTabIx = this.TAB_INDEX; // We do not want latest position (++this.TAB_INDEX) but almost latest position
             ZaNewDomainXWizard.CONFIG_COMPLETE_STEP = twofactorauthTabIx + 1 ; // Ensure that Complete step is the last one.
 
             var endStep = this.stepChoices.pop();
             endStep.value = endStep.value + 1 // Move the endStep downwards
 
-            this.stepChoices.push({value:twofactorauthTabIx, label:com_btactic_twofactorauth_admin.zimbraTwoFactorAuthTab});
+            this.stepChoices.push({value:twofactorauthTabIx, label:com_btactic_activesyncauth_admin.zimbraTwoFactorAuthTab});
             this.stepChoices.push(endStep);
             this._lastStep = this.stepChoices.length;
 
             var twofactorauthStep={type:_CASE_, numCols:1, caseKey:twofactorauthTabIx,
-                items: [com_btactic_twofactorauth_ext.DOMAIN_WIZ_GROUP]
+                items: [com_btactic_activesyncauth_ext.DOMAIN_WIZ_GROUP]
             };
 
             var switchListEnd = xFormObject.items[firstSwitchPosition].items.pop();
@@ -594,7 +594,7 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_twofactorauth_admin"]){
             xFormObject.items[firstSwitchPosition].items.push(switchListEnd);
 
         }
-        ZaXDialog.XFormModifiers["ZaNewDomainXWizard"].push(com_btactic_twofactorauth_ext.DomainXWizModifier);
+        ZaXDialog.XFormModifiers["ZaNewDomainXWizard"].push(com_btactic_activesyncauth_ext.DomainXWizModifier);
     }
 
 }
