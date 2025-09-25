@@ -98,9 +98,9 @@ That way the authentication request is no longer done to the usual AuthRequest s
 ```
 sudo -i # Become root
 cd /tmp
-wget 'https://github.com/maldua-suite/zimbra-maldua-activesync-auth/releases/download/v0.1.0/zimbra-maldua-activesync-auth_0.1.0.tar.gz'
-tar xzf zimbra-maldua-activesync-auth_0.1.0.tar.gz
-cd zimbra-maldua-activesync-auth_0.1.0
+wget 'https://github.com/maldua-suite/zimbra-maldua-activesync-auth/releases/download/v0.1.1/zimbra-maldua-activesync-auth_0.1.1.tar.gz'
+tar xzf zimbra-maldua-activesync-auth_0.1.1.tar.gz
+cd zimbra-maldua-activesync-auth_0.1.1
 ```
 
 For regular installation or upgrade you can run:
@@ -120,15 +120,15 @@ su - zimbra -c 'zmmailboxdctl restart'
 
 **Notice:** In a Multi-Server cluster these commands have to be run on each one of the mailbox nodes.
 
-**WARNING:** Please change **0.1.0** with whatever it's the latest released version.
+**WARNING:** Please change **0.1.1** with whatever it's the latest released version.
 
 ```
 sudo -i # Become root
 cd /tmp
-wget 'https://github.com/maldua-suite/zimbra-maldua-activesync-auth/releases/download/v0.1.0/zimbra-maldua-activesync-auth_0.1.0.tar.gz'
-tar xzf zimbra-maldua-activesync-auth_0.1.0.tar.gz
-chown zimbra:zimbra zimbra-maldua-activesync-auth_0.1.0
-cd zimbra-maldua-activesync-auth_0.1.0
+wget 'https://github.com/maldua-suite/zimbra-maldua-activesync-auth/releases/download/v0.1.1/zimbra-maldua-activesync-auth_0.1.1.tar.gz'
+tar xzf zimbra-maldua-activesync-auth_0.1.1.tar.gz
+chown zimbra:zimbra zimbra-maldua-activesync-auth_0.1.1
+cd zimbra-maldua-activesync-auth_0.1.1
 cp zetaactivesyncauth.jar /opt/zimbra/lib/ext/zetaactivesyncauth/zetaactivesyncauth.jar
 ```
 
