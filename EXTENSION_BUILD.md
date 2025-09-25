@@ -1,4 +1,4 @@
-# Build Maldua Zimbra ActiveSync Extension
+# Build Maldua Zimbra ActiveSync Auth Extension
 
 ## Introduction
 
@@ -23,9 +23,9 @@ apt install ant git make zip
 sudo su - zimbra
 mkdir -p /opt/zimbra/conf/scripts
 cd /opt/zimbra/conf/scripts
-git clone 'https://github.com/maldua-suite/zimbra-maldua-activesync.git'
+git clone 'https://github.com/maldua-suite/zimbra-maldua-activesync-auth.git'
 
-cd zimbra-maldua-activesync/extension
+cd zimbra-maldua-activesync-auth/extension
 ln -s /opt/zimbra/lib/jars lib
 ```
 
@@ -34,24 +34,24 @@ ln -s /opt/zimbra/lib/jars lib
 ```
 sudo su - zimbra
 
-cd /opt/zimbra/conf/scripts/zimbra-maldua-activesync/extension
+cd /opt/zimbra/conf/scripts/zimbra-maldua-activesync-auth/extension
 ant jar
 ```
 
 Sample build output:
 ```
-Buildfile: /opt/zimbra/conf/scripts/zimbra-maldua-activesync/extension/build.xml
+Buildfile: /opt/zimbra/conf/scripts/zimbra-maldua-activesync-auth/extension/build.xml
 
 clean:
-   [delete] Deleting directory /opt/zimbra/conf/scripts/zimbra-maldua-activesync/extension/build
-   [delete] Deleting: /opt/zimbra/conf/scripts/zimbra-maldua-activesync/extension/zetaactivesync.jar
-    [mkdir] Created dir: /opt/zimbra/conf/scripts/zimbra-maldua-activesync/extension/build
+   [delete] Deleting directory /opt/zimbra/conf/scripts/zimbra-maldua-activesync-auth/extension/build
+   [delete] Deleting: /opt/zimbra/conf/scripts/zimbra-maldua-activesync-auth/extension/zetaactivesyncauth.jar
+    [mkdir] Created dir: /opt/zimbra/conf/scripts/zimbra-maldua-activesync-auth/extension/build
 
 compile:
-    [javac] Compiling 48 source files to /opt/zimbra/conf/scripts/zimbra-maldua-activesync/extension/build
+    [javac] Compiling 48 source files to /opt/zimbra/conf/scripts/zimbra-maldua-activesync-auth/extension/build
 
 jar:
-      [jar] Building jar: /opt/zimbra/conf/scripts/zimbra-maldua-activesync/extension/zetaactivesync.jar
+      [jar] Building jar: /opt/zimbra/conf/scripts/zimbra-maldua-activesync-auth/extension/zetaactivesyncauth.jar
 
 BUILD SUCCESSFUL
 Total time: 2 seconds
@@ -62,6 +62,6 @@ Total time: 2 seconds
 
 A new jar file should be found at:
 ```
-/opt/zimbra/conf/scripts/zimbra-maldua-activesync/extension/zetaactivesync.jar
+/opt/zimbra/conf/scripts/zimbra-maldua-activesync-auth/extension/zetaactivesyncauth.jar
 ```
 .
