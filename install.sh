@@ -33,7 +33,8 @@ function restart_notice () {
 cat << EOF
 
 - Zimbra ActiveSync Auth Extension
-was installed.
+- Zimbra ActiveSync Auth Admin zimlet
+were installed.
 
 Please restart mailboxd thanks to:
 
@@ -64,6 +65,8 @@ zmacl_disable
 
 cp zetaactivesyncauth.jar /opt/zimbra/lib/ext/zetaactivesyncauth/zetaactivesyncauth.jar
 chmod 444 /opt/zimbra/lib/ext/zetaactivesyncauth/zetaactivesyncauth.jar
+
+su - zimbra -c 'zmzimletctl -l deploy '"$(pwd)"'/com_btactic_activesyncauth_admin.zip'
 
 zmacl_enable
 
