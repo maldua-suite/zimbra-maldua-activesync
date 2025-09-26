@@ -59,7 +59,7 @@ Before even installing this extension you need to whitelist your ActiveSync serv
 Let's assume that your Z-Push server ip seen by Zimbra is 1.2.3.4.
 
 This should always work:
-```
+```bash
 sudo su - zimbra
 zmprov modifyServer $(zmhostname) +zimbraHttpThrottleSafeIPs '1.2.3.4'
 exit
@@ -68,7 +68,7 @@ exit
 
 If you want something that works in all of your cluster nodes at once use this instead:
 
-```
+```bash
 sudo su - zimbra
 zmprov mcf +zimbraHttpThrottleSafeIPs '1.2.3.4'
 exit
@@ -98,7 +98,7 @@ exit
 
 **Notice:** In a Multi-Server cluster these commands have to be run on each one of the mailbox nodes.
 
-```
+```bash
 sudo -i # Become root
 cd /tmp
 wget 'https://github.com/maldua-suite/zimbra-maldua-activesync-auth/releases/download/v0.1.1/zimbra-maldua-activesync-auth_0.1.1.tar.gz'
@@ -106,15 +106,14 @@ tar xzf zimbra-maldua-activesync-auth_0.1.1.tar.gz
 cd zimbra-maldua-activesync-auth_0.1.1
 ```
 
-For regular installation or upgrade you can run:
-```
+For regular installation or upgrade you can just run:
+```bash
 ./install.sh
 ```
-instead
 .
 
-In order for the two-factor authentication extension and the adminZimlet to apply you need to restart mailboxd with:
-```
+In order for the ActiveSync Auth extension and the adminZimlet to apply you need to restart mailboxd with:
+```bash
 sudo -i # Become root
 su - zimbra -c 'zmmailboxdctl restart'
 ```
@@ -125,7 +124,7 @@ su - zimbra -c 'zmmailboxdctl restart'
 
 **WARNING:** Please change **0.1.1** with whatever it's the latest released version.
 
-```
+```bash
 sudo -i # Become root
 cd /tmp
 wget 'https://github.com/maldua-suite/zimbra-maldua-activesync-auth/releases/download/v0.1.1/zimbra-maldua-activesync-auth_0.1.1.tar.gz'
@@ -138,7 +137,7 @@ su - zimbra -c 'zmzimletctl -l deploy /tmp/zimbra-maldua-activesync-auth_0.1.1/c
 ```
 
 In order for the ActiveSync extension to apply you need to restart mailboxd with:
-```
+```bash
 sudo -i # Become root
 su - zimbra -c 'zmmailboxdctl restart'
 ```
@@ -182,14 +181,14 @@ That way the authentication request is no longer done to the usual AuthRequest s
 
 ### Uninstallation
 
-```
+```bash
 sudo -i # Become root
 su - zimbra -c 'zmzimletctl undeploy com_btactic_activesyncauth_admin'
 mv /opt/zimbra/lib/ext/zetaactivesyncauth/zetaactivesyncauth.jar /root/zetaactivesyncauth.jar-REMOVED-ON-YYYY-MM-DD
 ```
 
 In order for the removal to be applied you need to restart mailboxd with:
-```
+```bash
 sudo -i # Become root
 su - zimbra -c 'zmmailboxdctl restart'
 ```
