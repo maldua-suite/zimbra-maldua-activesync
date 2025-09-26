@@ -51,6 +51,8 @@ When creating or editing a class of service or an account there is an additional
 
 ![Admin Zimlet for ActiveSync Auth](images/activesyncauth-adminzimlet1.png)
 
+## Pre Installation
+
 ### Initial setup (Zimbra) {Step 1 of 4}
 
 Before even installing this extension you need to whitelist your ActiveSync server (Usually Z-Push + Z-Push Backend for Zimbra) ip into **zimbraHttpThrottleSafeIPs**.
@@ -90,7 +92,60 @@ exit
 ```
 .
 
-### Initial setup (Z-Push VPS) {Step 3 of 4}
+## Installation
+
+### Automatic installation (Zimbra) {Step 3 of 4}
+
+**Notice:** In a Multi-Server cluster these commands have to be run on each one of the mailbox nodes.
+
+```
+sudo -i # Become root
+cd /tmp
+wget 'https://github.com/maldua-suite/zimbra-maldua-activesync-auth/releases/download/v0.1.1/zimbra-maldua-activesync-auth_0.1.1.tar.gz'
+tar xzf zimbra-maldua-activesync-auth_0.1.1.tar.gz
+cd zimbra-maldua-activesync-auth_0.1.1
+```
+
+For regular installation or upgrade you can run:
+```
+./install.sh
+```
+instead
+.
+
+In order for the two-factor authentication extension and the adminZimlet to apply you need to restart mailboxd with:
+```
+sudo -i # Become root
+su - zimbra -c 'zmmailboxdctl restart'
+```
+
+### Manual installation
+
+**Notice:** In a Multi-Server cluster these commands have to be run on each one of the mailbox nodes.
+
+**WARNING:** Please change **0.1.1** with whatever it's the latest released version.
+
+```
+sudo -i # Become root
+cd /tmp
+wget 'https://github.com/maldua-suite/zimbra-maldua-activesync-auth/releases/download/v0.1.1/zimbra-maldua-activesync-auth_0.1.1.tar.gz'
+tar xzf zimbra-maldua-activesync-auth_0.1.1.tar.gz
+chown zimbra:zimbra zimbra-maldua-activesync-auth_0.1.1
+chown zimbra:zimbra zimbra-maldua-activesync-auth_0.1.1/com_btactic_activesyncauth_admin.zip
+cd zimbra-maldua-activesync-auth_0.1.1
+cp zetaactivesyncauth.jar /opt/zimbra/lib/ext/zetaactivesyncauth/zetaactivesyncauth.jar
+su - zimbra -c 'zmzimletctl -l deploy /tmp/zimbra-maldua-activesync-auth_0.1.1/com_btactic_activesyncauth_admin.zip'
+```
+
+In order for the ActiveSync extension to apply you need to restart mailboxd with:
+```
+sudo -i # Become root
+su - zimbra -c 'zmmailboxdctl restart'
+```
+
+## Post Installation
+
+### Initial setup (Z-Push VPS) {Step 4 of 4}
 
 Your existing Z-Push + Z-Push Backend for Zimbra VPS needs to be patched.
 
@@ -118,57 +173,6 @@ is changed to:
 .
 
 That way the authentication request is no longer done to the usual AuthRequest soap page but to the ZetaActiveSyncAuthRequest soap page.
-
-### Installation
-
-#### Automatic installation {Step 4 of 4}
-
-**Notice:** In a Multi-Server cluster these commands have to be run on each one of the mailbox nodes.
-
-```
-sudo -i # Become root
-cd /tmp
-wget 'https://github.com/maldua-suite/zimbra-maldua-activesync-auth/releases/download/v0.1.1/zimbra-maldua-activesync-auth_0.1.1.tar.gz'
-tar xzf zimbra-maldua-activesync-auth_0.1.1.tar.gz
-cd zimbra-maldua-activesync-auth_0.1.1
-```
-
-For regular installation or upgrade you can run:
-```
-./install.sh
-```
-instead
-.
-
-In order for the two-factor authentication extension and the adminZimlet to apply you need to restart mailboxd with:
-```
-sudo -i # Become root
-su - zimbra -c 'zmmailboxdctl restart'
-```
-
-#### Manual installation
-
-**Notice:** In a Multi-Server cluster these commands have to be run on each one of the mailbox nodes.
-
-**WARNING:** Please change **0.1.1** with whatever it's the latest released version.
-
-```
-sudo -i # Become root
-cd /tmp
-wget 'https://github.com/maldua-suite/zimbra-maldua-activesync-auth/releases/download/v0.1.1/zimbra-maldua-activesync-auth_0.1.1.tar.gz'
-tar xzf zimbra-maldua-activesync-auth_0.1.1.tar.gz
-chown zimbra:zimbra zimbra-maldua-activesync-auth_0.1.1
-chown zimbra:zimbra zimbra-maldua-activesync-auth_0.1.1/com_btactic_activesyncauth_admin.zip
-cd zimbra-maldua-activesync-auth_0.1.1
-cp zetaactivesyncauth.jar /opt/zimbra/lib/ext/zetaactivesyncauth/zetaactivesyncauth.jar
-su - zimbra -c 'zmzimletctl -l deploy /tmp/zimbra-maldua-activesync-auth_0.1.1/com_btactic_activesyncauth_admin.zip'
-```
-
-In order for the ActiveSync extension to apply you need to restart mailboxd with:
-```
-sudo -i # Become root
-su - zimbra -c 'zmmailboxdctl restart'
-```
 
 ### Uninstallation
 
