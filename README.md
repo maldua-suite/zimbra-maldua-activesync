@@ -4,7 +4,7 @@
 
 ## About
 
-**MALDUA'S Zimbra ActiveSync Auth Extension** brought to you by [BTACTIC, open source & cloud solutions](https://www.btactic.com).
+**MALDUA'S Zimbra ActiveSync Auth Extension & Administration Zimlet** brought to you by [BTACTIC, open source & cloud solutions](https://www.btactic.com).
 
 ActiveSync is a mobile data synchronization app developed by Microsoft, originally released in 1996. It synchronizes data with handheld devices and desktop computers.
 
@@ -128,8 +128,10 @@ cd /tmp
 wget 'https://github.com/maldua-suite/zimbra-maldua-activesync-auth/releases/download/v0.1.1/zimbra-maldua-activesync-auth_0.1.1.tar.gz'
 tar xzf zimbra-maldua-activesync-auth_0.1.1.tar.gz
 chown zimbra:zimbra zimbra-maldua-activesync-auth_0.1.1
+chown zimbra:zimbra zimbra-maldua-activesync-auth_0.1.1/com_btactic_activesyncauth_admin.zip
 cd zimbra-maldua-activesync-auth_0.1.1
 cp zetaactivesyncauth.jar /opt/zimbra/lib/ext/zetaactivesyncauth/zetaactivesyncauth.jar
+su - zimbra -c 'zmzimletctl -l deploy /tmp/zimbra-maldua-activesync-auth_0.1.1/com_btactic_activesyncauth_admin.zip'
 ```
 
 In order for the ActiveSync extension to apply you need to restart mailboxd with:
@@ -142,6 +144,7 @@ su - zimbra -c 'zmmailboxdctl restart'
 
 ```
 sudo -i # Become root
+su - zimbra -c 'zmzimletctl undeploy com_btactic_activesyncauth_admin'
 mv /opt/zimbra/lib/ext/zetaactivesyncauth/zetaactivesyncauth.jar /root/zetaactivesyncauth.jar-REMOVED-ON-YYYY-MM-DD
 ```
 
@@ -164,9 +167,17 @@ This documentation is aimed at developers, not at admins.
 
 - Check: [EXTENSION_INSTALL.md](EXTENSION_INSTALL.md) on how to install the Extension.
 
-### How to release the extension
+### How to build the admin zimlet
 
-- Check: [RELEASE.md](RELEASE.md) on how to release the extension.
+- Check: [ADMINZIMLET_BUILD.md](ADMINZIMLET_BUILD.md) on how to build the Administration Console Zimlet.
+
+### How to install the admin zimlet
+
+- Check: [ADMINZIMLET_INSTALL.md](ADMINZIMLET_INSTALL.md) on how to install the Administration Console Zimlet.
+
+### How to release the extension and admin zimlet
+
+- Check: [RELEASE.md](RELEASE.md) on how to release the extension and admin zimlet.
 
 ## Some background
 
