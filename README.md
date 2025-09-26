@@ -147,7 +147,13 @@ su - zimbra -c 'zmmailboxdctl restart'
 
 ### Initial setup (Z-Push VPS) {Step 4 of 4}
 
-Your existing Z-Push + Z-Push Backend for Zimbra VPS needs to be patched.
+Your existing Z-Push + Z-Push Backend for Zimbra VPS needs to be patched. The procedure changes depending on your Zimbra Backend version.
+
+#### Zimbra Backend release 75 (or higher)
+
+**TODO: You will be able to turn it on in your config.php**
+
+#### Zimbra Backend release 74 (or lower)
 
 Usually you would need to edit `/usr/share/z-push/backend/zimbra/zimbra.php` file in such a way that around 1000 line:
 
