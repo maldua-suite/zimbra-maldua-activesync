@@ -37,9 +37,21 @@ Thanks to the new soap request page:
 
 - Only allow connections from **zimbraHttpThrottleSafeIPs** ips by default for an increased security.
 
+### Follows zimbraFeatureMobileSyncEnabled
+
+- Only accounts that have zimbraFeatureMobileSyncEnabled (Enable ActiveSync) set to true are allowed to authenticate.
+
 ## Admin documentation
 
-### Initial setup (Zimbra) {Step 1 of 3}
+### Basic Management
+
+When creating or editing a class of service or an account there is an additional tab named **ActiveSync Auth (Maldua)** where you can:
+
+- Enable or disable ActiveSync feature
+
+![Admin Zimlet for ActiveSync Auth](images/activesyncauth-adminzimlet1.png)
+
+### Initial setup (Zimbra) {Step 1 of 4}
 
 Before even installing this extension you need to whitelist your ActiveSync server (Usually Z-Push + Z-Push Backend for Zimbra) ip into **zimbraHttpThrottleSafeIPs**.
 Let's assume that your Z-Push server ip seen by Zimbra is 1.2.3.4.
@@ -60,7 +72,25 @@ zmprov mcf +zimbraHttpThrottleSafeIPs '1.2.3.4'
 exit
 ```
 
-### Initial setup (Z-Push VPS) {Step 2 of 3}
+### Set zimbraFeatureMobileSyncEnabled to true in all ClassOfService (Zimbra) {Step 2 of 4}
+
+If you have never used Z-Push Backend for Zimbra linked to Zimbra you can skip this step and enable ActiveSync in a per account basis or in a per ClassOfService basis later on thanks to the Admin Documentation instructions.
+
+If you come from the usual **Z-Push Backend for Zimbra that it's already working with Zimbra** you are already used to enable ActiveSync service for everyone. The main reason for that is that you cannot enable or disable ActiveSync service on per account basis in an easy manner.
+
+If you want to keep that behaviour (everyone can connect) which it's useful the first time you install this extension you can force `zimbraFeatureMobileSyncEnabled` to be true on all the ClassOfServices before even installing the extension.
+
+This is how it's done:
+```bash
+sudo su - zimbra
+
+for ncosid in $(zmprov getAllCos -v | grep -E '^zimbraId:' | sed 's/zimbraId://g'); do zmprov modifyCos $ncosid zimbraFeatureMobileSyncEnabled TRUE ; done
+
+exit
+```
+.
+
+### Initial setup (Z-Push VPS) {Step 3 of 4}
 
 Your existing Z-Push + Z-Push Backend for Zimbra VPS needs to be patched.
 
@@ -91,7 +121,7 @@ That way the authentication request is no longer done to the usual AuthRequest s
 
 ### Installation
 
-#### Automatic installation {Step 3 of 3}
+#### Automatic installation {Step 4 of 4}
 
 **Notice:** In a Multi-Server cluster these commands have to be run on each one of the mailbox nodes.
 
