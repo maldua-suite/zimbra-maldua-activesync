@@ -314,6 +314,18 @@ public final class ZetaActiveSyncAuth extends Auth {
             throw e;
         }
 
+        // ZETACHANGE : Check zimbraFeatureMobileSyncEnabled attribute
+        if (!(acct.isFeatureMobileSyncEnabled())) {
+            if (LC.zimbra_additional_logging.booleanValue()) {
+                ZimbraLog.security.info(String.format("Error occurred during authentication:" +
+                        " authentication failed for [%s]. Reason: Mobile Sync not enabled.", acctValue));
+            }
+            AuthFailedServiceException e = AuthFailedServiceException.AUTH_FAILED(acctValue,
+                acctValuePassedIn, "Mobile Sync not enabled");
+            AuthListener.invokeOnException(e);
+            throw e;
+        }
+
         AccountUtil.addAccountToLogContext(prov, acct.getId(), ZimbraLog.C_NAME, ZimbraLog.C_ID, null);
         Boolean registerTrustedDevice = false;
         TwoFactorAuth twoFactorManager = TwoFactorAuth.getFactory().getTwoFactorAuth(acct);
