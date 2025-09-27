@@ -30,7 +30,7 @@ public class ZetaActiveSyncAuthExtension implements ZimbraExtension {
      * @return extension name
      */
     public String getName() {
-        return "zetaactivesync";
+        return "zetaactivesyncauth";
     }
 
     /**
