@@ -1,6 +1,6 @@
 build
 lib
-zetaactivesync.jar
+zetaactivesyncauth.jar
 openjdk*
 java*
 out
