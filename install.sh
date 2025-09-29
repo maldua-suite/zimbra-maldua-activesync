@@ -14,6 +14,17 @@ function zmacl_enable () {
     fi
 }
 
+function zeta_extension_install () {
+    EXTENSION_ID="$1"
+    EXTENSION_DIR="/opt/zimbra/lib/ext/${EXTENSION_ID}"
+
+    if [ ! -d "${EXTENSION_DIR}" ] ; then
+        mkdir -p "${EXTENSION_DIR}"
+    fi
+    cp ${EXTENSION_ID}.jar "${EXTENSION_DIR}"/${EXTENSION_ID}.jar
+    chmod 444 "${EXTENSION_DIR}"/${EXTENSION_ID}.jar
+}
+
 function usage () {
 
 cat << EOF
@@ -63,8 +74,7 @@ fi
 
 zmacl_disable
 
-cp zetaactivesyncauth.jar /opt/zimbra/lib/ext/zetaactivesyncauth/zetaactivesyncauth.jar
-chmod 444 /opt/zimbra/lib/ext/zetaactivesyncauth/zetaactivesyncauth.jar
+zeta_extension_install "zetaactivesyncauth"
 
 su - zimbra -c 'zmzimletctl -l deploy '"$(pwd)"'/com_btactic_activesyncauth_admin.zip'
 
