@@ -89,7 +89,7 @@ import com.zimbra.cs.service.account.Auth;
 import com.zimbra.cs.service.account.GetPrefs;
 import com.zimbra.cs.service.account.ToXML;
 
-import com.btactic.activesync.service.exception.ActiveSyncDisabledException;
+import com.btactic.activesync.service.exception.ActiveSyncAuthException;
 import com.btactic.activesync.util.ZetaWhitelistUtil;
 
 public final class ZetaActiveSyncAuth extends Auth {
@@ -111,8 +111,8 @@ public final class ZetaActiveSyncAuth extends Auth {
         String requestIP = ZetaWhitelistUtil.sanitizeIp(rawRequestIP);
         boolean validActiveSyncIP = ZetaWhitelistUtil.isWhitelisted(requestIP);
         if (!validActiveSyncIP) {
-            AuthFailedServiceException e = AuthFailedServiceException
-                .AUTH_FAILED("auth: IP: '" + requestIP + "' not a valid zimbraHttpThrottleSafeIPs, server or localhost ip");
+            ActiveSyncAuthException e = ActiveSyncAuthException
+                .NOT_IN_ZIMBRAHTTPTHROTTLESAFEIPS("auth: IP: '" + requestIP + "' not a valid zimbraHttpThrottleSafeIPs, server or localhost ip");
             AuthListener.invokeOnException(e);
             throw e;
         }
@@ -319,10 +319,10 @@ public final class ZetaActiveSyncAuth extends Auth {
         if (!(acct.isFeatureMobileSyncEnabled())) {
             if (LC.zimbra_additional_logging.booleanValue()) {
                 ZimbraLog.security.info(String.format("Error occurred during authentication:" +
-                        " authentication failed for [%s]. Reason: Mobile Sync not enabled.", acctValue));
+                        " authentication failed for [%s]. Reason: ActiveSync not enabled.", acctValue));
             }
-            ActiveSyncDisabledException e = ActiveSyncDisabledException.ACTIVESYNC_DISABLED(acctValue,
-                acctValuePassedIn, "Mobile Sync not enabled");
+            ActiveSyncAuthException e = ActiveSyncAuthException.ACTIVESYNC_DISABLED(acctValue,
+                acctValuePassedIn, "ActiveSync not enabled");
             AuthListener.invokeOnException(e);
             throw e;
         }
