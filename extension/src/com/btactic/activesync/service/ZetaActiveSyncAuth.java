@@ -89,6 +89,7 @@ import com.zimbra.cs.service.account.Auth;
 import com.zimbra.cs.service.account.GetPrefs;
 import com.zimbra.cs.service.account.ToXML;
 
+import com.btactic.activesync.service.exception.ActiveSyncDisabledException;
 import com.btactic.activesync.util.ZetaWhitelistUtil;
 
 public final class ZetaActiveSyncAuth extends Auth {
@@ -320,7 +321,7 @@ public final class ZetaActiveSyncAuth extends Auth {
                 ZimbraLog.security.info(String.format("Error occurred during authentication:" +
                         " authentication failed for [%s]. Reason: Mobile Sync not enabled.", acctValue));
             }
-            AuthFailedServiceException e = AuthFailedServiceException.AUTH_FAILED(acctValue,
+            ActiveSyncDisabledException e = ActiveSyncDisabledException.ACTIVESYNC_DISABLED(acctValue,
                 acctValuePassedIn, "Mobile Sync not enabled");
             AuthListener.invokeOnException(e);
             throw e;
