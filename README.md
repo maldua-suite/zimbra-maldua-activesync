@@ -101,9 +101,9 @@ exit
 ```bash
 sudo -i # Become root
 cd /tmp
-wget 'https://github.com/maldua-suite/zimbra-maldua-activesync-auth/releases/download/v0.1.4/zimbra-maldua-activesync-auth_0.1.4.tar.gz'
-tar xzf zimbra-maldua-activesync-auth_0.1.4.tar.gz
-cd zimbra-maldua-activesync-auth_0.1.4
+wget 'https://github.com/maldua-suite/zimbra-maldua-activesync-auth/releases/download/v0.1.5/zimbra-maldua-activesync-auth_0.1.5.tar.gz'
+tar xzf zimbra-maldua-activesync-auth_0.1.5.tar.gz
+cd zimbra-maldua-activesync-auth_0.1.5
 ```
 
 For regular installation or upgrade you can just run:
@@ -122,18 +122,18 @@ su - zimbra -c 'zmmailboxdctl restart'
 
 **Notice:** In a Multi-Server cluster these commands have to be run on each one of the mailbox nodes.
 
-**WARNING:** Please change **0.1.4** with whatever it's the latest released version.
+**WARNING:** Please change **0.1.5** with whatever it's the latest released version.
 
 ```bash
 sudo -i # Become root
 cd /tmp
-wget 'https://github.com/maldua-suite/zimbra-maldua-activesync-auth/releases/download/v0.1.4/zimbra-maldua-activesync-auth_0.1.4.tar.gz'
-tar xzf zimbra-maldua-activesync-auth_0.1.4.tar.gz
-chown zimbra:zimbra zimbra-maldua-activesync-auth_0.1.4
-chown zimbra:zimbra zimbra-maldua-activesync-auth_0.1.4/com_btactic_activesyncauth_admin.zip
-cd zimbra-maldua-activesync-auth_0.1.4
+wget 'https://github.com/maldua-suite/zimbra-maldua-activesync-auth/releases/download/v0.1.5/zimbra-maldua-activesync-auth_0.1.5.tar.gz'
+tar xzf zimbra-maldua-activesync-auth_0.1.5.tar.gz
+chown zimbra:zimbra zimbra-maldua-activesync-auth_0.1.5
+chown zimbra:zimbra zimbra-maldua-activesync-auth_0.1.5/com_btactic_activesyncauth_admin.zip
+cd zimbra-maldua-activesync-auth_0.1.5
 cp zetaactivesyncauth.jar /opt/zimbra/lib/ext/zetaactivesyncauth/zetaactivesyncauth.jar
-su - zimbra -c 'zmzimletctl -l deploy /tmp/zimbra-maldua-activesync-auth_0.1.4/com_btactic_activesyncauth_admin.zip'
+su - zimbra -c 'zmzimletctl -l deploy /tmp/zimbra-maldua-activesync-auth_0.1.5/com_btactic_activesyncauth_admin.zip'
 ```
 
 In order for the ActiveSync extension to apply you need to restart mailboxd with:
